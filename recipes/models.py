@@ -5,11 +5,10 @@ User = get_user_model()
 
 
 class Tag(models.Model):
-    key = models.CharField(max_length=60, verbose_name='Ключ')
-    value = models.CharField(max_length=60, verbose_name='Значение')
+    tag = models.CharField(max_length=60, verbose_name='Тег')
 
     def __str__(self):
-        return self.key
+        return self.tag
 
 
 class Recipe(models.Model):
