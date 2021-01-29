@@ -15,7 +15,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='recipe',
+        related_name='recipes',
         verbose_name='Автор публикации')
     title = models.CharField(
         max_length=100,
@@ -29,16 +29,15 @@ class Recipe(models.Model):
         'Ingredient',
         through='Quantity',
         through_fields = ('recipe', 'ingredient'),
-        verbose_name='Ингредиент'
+        verbose_name='Ингредиенты'
     )
     image = models.ImageField(
-        upload_to='recipe/',
+        upload_to='recipes/',
         blank=True,
         null=True,
         verbose_name="Картинка"
     )
-    tag = models.ManyToManyField(Tag, verbose_name='Тег')
-    slug = models.SlugField(max_length=50, verbose_name='slug', unique=True)
+    tags = models.ManyToManyField(Tag, verbose_name='Тег')
     time = models.PositiveIntegerField(verbose_name='Время приготовления')
     pub_date = models.DateTimeField(
         auto_now=True,

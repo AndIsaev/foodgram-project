@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} Рецепты {% endblock %}
+{% block content %}
+{% csrf_token %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'pages/index.css' %}">
+    <main class="main container">
+        <body>
+            <h1>Последние обновления на сайте</h1>
+                {% for recipe in recipes %}
+            <h3>
+                Автор: {{ recipe.author }}, дата публикации: {{ recipe.pub_date|date:"d M Y" }}
+            </h3>
+            <p>{{ recipe.description|linebreaksbr }}</p>
+            <hr>
+        {% endfor %}
+        </body>
+    </main>
+<script src="{% static 'js/components/Purchases.js' %}"></script>
+<script src="{% static 'js/config/config.js' %}"></script>
+
+<script src="{% static 'js/components/MainCards.js' %}"></script>
+<script src="{% static 'js/components/SingleCard.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'singlePageNotAuth.js' %}"></script>
+</body>
+</html>
+{% endblock %}
