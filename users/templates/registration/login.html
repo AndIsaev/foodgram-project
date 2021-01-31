@@ -29,6 +29,18 @@
 						{% if form.errors %} Имя пользователя и пароль не совпадают. Введите правильные данные. {% endif %}
 						{{ form.password.errors }}
 					</span>
+
+                    {% if next %}
+                        <div class="alert alert-info" role="alert">
+                            Вы обратились к странице, доступ к которой возможен только для залогиненных пользователей.<br>
+                            Пожалуйста, авторизуйтесь.
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info" role="alert">
+                            Пожалуйста, авторизуйтесь.
+                        </div>
+                    {% endif %}
+
                 </div>
             </div>
             <div class="form__footer">

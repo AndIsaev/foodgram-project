@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block title %} Рецепты {% endblock %}
-{% block content %}
-{% csrf_token %}
-{% load static %}
 
-<link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% load static %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+{% block content %}
     <main class="main container">
         <body>
             <h1>Последние обновления на сайте</h1>
-                {% for recipe in recipes %}
+                {% for recipe in page %}
             <h3>
                 Автор: {{ recipe.author }}, дата публикации: {{ recipe.pub_date|date:"d M Y" }}
             </h3>
@@ -17,6 +19,7 @@
         {% endfor %}
         </body>
     </main>
+{% include "paginator.html" %}
 <script src="{% static 'js/components/Purchases.js' %}"></script>
 <script src="{% static 'js/config/config.js' %}"></script>
 
@@ -26,6 +29,5 @@
 
 <script src="{% static 'js/api/Api.js' %}"></script>
 <script src="{% static 'singlePageNotAuth.js' %}"></script>
-</body>
-</html>
+
 {% endblock %}

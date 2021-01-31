@@ -1,47 +1,51 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render
-from .models import Recipe, Tag
+from django.shortcuts import render, redirect, get_object_or_404
 
-# def get_filters_recipes(request, *args, **kwargs):
-#     filters = request.GET.getlist('filters')
-#     if filters:
-#         recipes = Recipe.objects.filter(
-#             tags__key__in=filters).filter(**kwargs).distinct()
-#     else:
-#         recipes = Recipe.objects.filter(**kwargs).all()
-#
-#     return filters, recipes
-#
-#
-# def index(request):
-#     filters, recipes = get_filters_recipes(request)
-#     tags = Tag.objects.all()
-#     paginator = Paginator(recipes, 6)
-#     page_number = request.GET.get('page')
-#     page = paginator.get_page(page_number)
-#
-#     content = {'page': page,
-#                'paginator': paginator,
-#                'tags': tags,
-#                'filter': filters,
-#                }
-#
-#     return render(request, 'index.html', content)
+from .forms import RecipeForm
+from .models import Recipe, Tag, Quantity, Ingredient
+
+
 
 
 def index(request):
-    """Возвращает до 11 последних записей."""
-    return render(request, "index.html", {
-        "recipes": list(
-            Recipe
-                .objects
-                .all()
-                .select_related("author")
-                .values("author", "pub_date",
-                         'image', 'ingredients', 'tags', 'time', 'description')[:6]
-        )
-    })
+    recipes_list = Recipe.objects.all().order_by('-pub_date')
+    paginator = Paginator(recipes_list, 1)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    return render(
+        request,
+        'index.html',
+        {'page': page, }
+    )
 
-# def index(request):
-#     latest = Recipe.objects.order_by("-pub_date")[:11]
-#     return render(request, "index.html", {"posts": latest})
+
+
+def get_dict_ingredient(request_obj):
+    tmp = dict()
+    for key in request_obj:
+        if key.startswith('nameIngredient'):
+            ingredient = get_object_or_404(Ingredient, title=request_obj[key])
+            value = key[15:]
+            tmp[ingredient] = request_obj['valueIngredient_' + value]
+    return tmp
+
+
+@login_required
+def new_recipe(request):
+    form = RecipeForm(request.POST or None, files=request.FILES or None)
+
+    if form.is_valid():
+        ingredients = get_dict_ingredient(request.POST)
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.save()
+        recipe.tags.set(form.cleaned_data['tags'])
+        # active_tags = list(recipe.tags.values_list('key', flat=True))
+
+        for ingredient, value in ingredients.items():
+            Quantity.objects.create(ingredient=ingredient,
+                                  recipe=recipe,
+                                  quantity=value)
+        return redirect('index')
+    return render(request, 'new.html', {'form': form })
