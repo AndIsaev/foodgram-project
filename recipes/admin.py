@@ -15,7 +15,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ("tag",)
+    list_display = ("title", "display_name")
 
 
 class IngredientAdmin(admin.ModelAdmin):

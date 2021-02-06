@@ -5,10 +5,15 @@ User = get_user_model()
 
 
 class Tag(models.Model):
-    tag = models.CharField(max_length=60, verbose_name='Тег')
+    title = models.CharField('Имя тега', max_length=60, db_index=True)
+    display_name = models.CharField('Имя тега для шаблона', max_length=60)
+
+    class Meta:
+        verbose_name = 'тег'
+        verbose_name_plural = 'теги'
 
     def __str__(self):
-        return self.tag
+        return self.title
 
 
 class Recipe(models.Model):

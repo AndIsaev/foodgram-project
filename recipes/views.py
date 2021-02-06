@@ -48,4 +48,7 @@ def new_recipe(request):
                                   recipe=recipe,
                                   quantity=value)
         return redirect('index')
-    return render(request, 'new.html', {'form': form })
+    return render(request, 'new.html', {'form': form})
+
+
+# def create_recipe(request):
