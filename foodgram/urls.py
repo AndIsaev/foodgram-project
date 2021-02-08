@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.flatpages import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -28,10 +30,12 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('about/about-author/', views.flatpage,
+    path('about-author/', views.flatpage,
          {'url': '/about-author/'}, name='about-author'),
-    path('about/about-spec/', views.flatpage,
+    path('about-spec/', views.flatpage,
          {'url': '/about-spec/'}, name='about-spec'),
 ]
 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -5,8 +5,10 @@ from .models import Recipe, Tag
 
 
 class RecipeForm(ModelForm):
+    tags = ModelMultipleChoiceField(queryset=Tag.objects.all(),
+                                    to_field_name='title')
+
     class Meta:
         model = Recipe
-        fields = ['title', 'time', 'description', 'image', 'tags']
+        fields = ['title', 'time', 'description', 'image']
 
-        widgets = {'tags': forms.CheckboxSelectMultiple()}

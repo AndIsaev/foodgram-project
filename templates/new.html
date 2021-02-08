@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block title %}Новая запись{% endblock %} 
+{% block title %}Создание рецепта{% endblock %}
 
 {% load user_filters %}
 
@@ -7,12 +7,13 @@
 {% block static %}
 	<link rel="stylesheet" href="{% static 'pages/form.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="main__header">
         <h1 class="main__title">Создание рецепта</h1>
     </div>
     <div class="form-container">
-        <form class="form" method="post" action="{% url 'new_recipe' %}">
+        <form class="form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form__group">
                 <label for="{{ form.title.id_for_label }}" class="form__label">Название рецепта</label>
@@ -25,6 +26,7 @@
                     {% endif %}
                 </div>
             </div>
+
             <div class="form__group">
                 <p class="form__label">Теги</p>
                 <div class="form__field-group">
@@ -32,19 +34,19 @@
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="breakfast" id="id_breakfast"
                                    class="tags__checkbox tags__checkbox_style_orange"
-                                   {% if 'breakfast' in form %}checked{% endif %}>
+                                   {% if 'breakfast' in active_tags %}checked{% endif %}>
                             <label for="id_breakfast" class="tags__label">Завтрак</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="lunch" id="id_lunch"
                                    class="tags__checkbox tags__checkbox_style_green"
-                                   {% if 'lunch' in form %}checked{% endif %}>
+                                   {% if 'lunch' in active_tags %}checked{% endif %}>
                             <label for="id_lunch" class="tags__label">Обед</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="dinner" id="id_dinner"
                                    class="tags__checkbox tags__checkbox_style_purple"
-                                   {% if 'dinner' in form %}checked{% endif %}>
+                                   {% if 'dinner' in active_tags %}checked{% endif %}>
                             <label for="id_dinner" class="tags__label">Ужин</label>
                         </div>
                     </div>

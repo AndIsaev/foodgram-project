@@ -1,27 +1,65 @@
-<ul class="tags">
-    <li class="tags__item">
-    {% if food_time == "breakfest" %}
-        <a id="breakfast" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="{{ url }}"></a>
+{% load user_filters %}
+<div class="main__header">
+    {% if author %}
+    <h1 class="main__title">{{ author.get_full_name }}</h1>
+    {% elif favorite %}
+    <h1 class="main__title">Избранное</h1>
     {% else %}
-        <a id="breakfast" class="tags__checkbox tags__checkbox_style_green" href="{{ url }}?filter=breakfest"></a>
+    <h1 class="main__title">Рецепты</h1>
     {% endif %}
-        <span class="tags__label"> Завтрак </span>
 
-    </li>
-    <li class="tags__item">
-    {% if food_time == "lunch" %}
-        <a id="lunch" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="{{ url }}"></a>
-    {% else %}
-        <a id="lunch" class="tags__checkbox tags__checkbox_style_orange" href="{{ url }}?filter=lunch"></a>
-    {% endif %}
-        <span for="lunch" class="tags__label"> Обед </span>
-    </li>
-    <li class="tags__item">
-    {% if food_time == "dinner" %}
-        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="{{ url }}"></a>
-    {% else %}
-        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple" href="{{ url }}?filter=dinner"></a>
-    {% endif %}
-        <label for="dinner" class="tags__label"> Ужин </label>
-    </li>
-</ul>
+    <ul class="tags">
+        {% for tag in tags %}
+        {% if "breakfast" == tag.key %}
+        <li class="tags__item">
+            <a id={{ tag.title }}
+               class="tags__checkbox tags__checkbox_style_orange {% if tag.title in filter %}
+                       tags__checkbox_active {% else %} tags__checkbox{% endif %}"
+               {% if author %}
+               href="{% url 'profile' author.username %}?{{ request|filter_recipes:tag }}">
+                {% elif favorite %}
+                href="{% url 'favorites' %}?{{ request|filter_recipes:tag }}">
+                {% else %}
+                href="{% url 'index' %}?{{ request|filter_recipes:tag }}">
+                {% endif %}
+            </a>
+            <span class="tags__label">{{ tag.value }} </span>
+        </li>
+        {% endif %}
+
+        {% if "lunch" == tag.key %}
+        <li class="tags__item">
+            <a id={{ tag.title }}
+               class="tags__checkbox tags__checkbox_style_green {% if tag.key in filter %}
+                       tags__checkbox_active {% else %} tags__checkbox{% endif %}"
+               {% if author %}
+               href="{% url 'profile' author.username %}?{{ request|filter_recipes:tag }}">
+                {% elif favorite %}
+                href="{% url 'favorites' %}?{{ request|filter_recipes:tag }}">
+                {% else %}
+                href="{% url 'index' %}?{{ request|filter_recipes:tag }}">
+                {% endif %}
+            </a>
+            <span for="lunch" class="tags__label">{{ tag.value }}</span>
+        </li>
+        {% endif %}
+
+        {% if "dinner" == tag.key %}
+        <li class="tags__item">
+            <a id={{ tag.title }}
+               class="tags__checkbox tags__checkbox_style_purple {% if tag.key in filter %}
+                       tags__checkbox_active {% else %} tags__checkbox {% endif %}"
+               {% if author %}
+               href="{% url 'profile' author.username %}?{{ request|filter_recipes:tag }}">
+                {% elif favorite %}
+                href="{% url 'favorites' %}?{{ request|filter_recipes:tag }}">
+                {% else %}
+                href="{% url 'index' %}?{{ request|filter_recipes:tag }}">
+                {% endif %}
+            </a>
+            <label for="dinner" class="tags__label">Ужин</label>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div>
