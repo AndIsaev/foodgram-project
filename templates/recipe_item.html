@@ -1,0 +1,22 @@
+<div class="card" data-id="{{ recipe.id }}">
+    <div class="card__body">
+        <a class="card__title link" href="#" target="_blank">{{recipe.title}}</a>
+        <ul class="card__items">
+            <li class="card__item"><span class="badge badge_style_green">Обед</span></li>
+            <li class="card__item"><span class="badge badge_style_orange">Завтрак</span></li>
+            <li class="card__item"><span class="badge badge_style_purple">Ужин</span></li>
+        </ul>
+        <div class="card__items card__items_column">
+            <p class="card__text"><span class="icon-time"></span> {{ recipe.time }} мин.</p>
+            <p class="card__text"><span class="icon-user"></span> <a href="#" style="color: black">{{ recipe.author }}</a>
+            </p>
+        </div>
+    </div>
+    {% csrf_token %}
+    <div class="card__footer">
+        <button class="button button_style_light-blue" name="purchases" data-out><span
+                class="icon-plus button__icon"></span>Добавить в покупки
+        </button>
+    </div>
+</div>
+

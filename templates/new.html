@@ -7,10 +7,7 @@
 {% block static %}
 	<link rel="stylesheet" href="{% static 'pages/form.css' %}">
 {% endblock %}
-
 {% block content %}
-
-<main class="main container">
     <div class="main__header">
         <h1 class="main__title">Создание рецепта</h1>
     </div>
@@ -122,10 +119,9 @@
         </form>
     </div>
 
+<script src="{% static "js/config/config.js" %}"></script>
+<script src="{% static "js/components/Header.js" %}"></script>
+<script src="{% static "js/utils/debouncing.js" %}"></script>
+<script src="{% static "js/api/Api.js" %}"></script>
+<script src="{% static "formRecipe.js" %}"></script>
 {% endblock %}
-
-<script src="{% static 'js/config/config.js' %}"></script>
-<script src="{% static 'js/components/Header.js' %}"></script>
-<script src="{% static 'js/utils/debouncing.js' %}"></script>
-<script src="{% static 'js/api/Api.js' %}"></script>
-<script src="{% static 'formRecipe.js' %}"></script>

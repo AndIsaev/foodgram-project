@@ -7,6 +7,7 @@ User = get_user_model()
 class Tag(models.Model):
     title = models.CharField('Имя тега', max_length=60, db_index=True)
     display_name = models.CharField('Имя тега для шаблона', max_length=60)
+    color = models.CharField(verbose_name='color', max_length=15, null=True)
 
     class Meta:
         verbose_name = 'тег'
@@ -42,7 +43,7 @@ class Recipe(models.Model):
         null=True,
         verbose_name="Картинка"
     )
-    tags = models.ManyToManyField(Tag, verbose_name='Тег')
+    tags = models.ManyToManyField(Tag, verbose_name='Тег', related_name='recipes')
     time = models.PositiveIntegerField(verbose_name='Время приготовления')
     pub_date = models.DateTimeField(
         auto_now=True,

@@ -10,7 +10,7 @@ from .models import Recipe, Tag, Quantity, Ingredient
 
 def index(request):
     recipes_list = Recipe.objects.all().order_by('-pub_date')
-    paginator = Paginator(recipes_list, 1)
+    paginator = Paginator(recipes_list, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
@@ -18,6 +18,9 @@ def index(request):
         'index.html',
         {'page': page, }
     )
+
+
+
 
 
 
@@ -41,7 +44,6 @@ def new_recipe(request):
         recipe.author = request.user
         recipe.save()
         recipe.tags.set(form.cleaned_data['tags'])
-        # active_tags = list(recipe.tags.values_list('key', flat=True))
 
         for ingredient, value in ingredients.items():
             Quantity.objects.create(ingredient=ingredient,
@@ -50,5 +52,3 @@ def new_recipe(request):
         return redirect('index')
     return render(request, 'new.html', {'form': form})
 
-
-# def create_recipe(request):

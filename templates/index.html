@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %} Рецепты {% endblock %}
-
 {% load static %}
 {% block static %}
     <link rel="stylesheet" href="{% static 'pages/index.css' %}">
@@ -8,18 +7,17 @@
 
 {% block content %}
     <main class="main container">
-        <body>
-            <h1>Последние обновления на сайте</h1>
-                {% for recipe in page %}
-            <h3>
-                Автор: {{ recipe.author }}, дата публикации: {{ recipe.pub_date|date:"d M Y" }}
-            </h3>
-            <p>{{ recipe.description|linebreaksbr }}</p>
-            <hr>
-        {% endfor %}
-        </body>
+        <div class="card-list">
+            {% for recipe in page %}
+                {% include "recipe_item.html" with recipe=recipe %}
+            {% endfor %}
+
+            {% if page.has_other_pages %}
+                {% include "paginator.html" with items=page paginator=paginator %}
+            {% endif %}
+        </div>
     </main>
-{% include "paginator.html" %}
+
 <script src="{% static 'js/components/Purchases.js' %}"></script>
 <script src="{% static 'js/config/config.js' %}"></script>
 
@@ -31,3 +29,4 @@
 <script src="{% static 'singlePageNotAuth.js' %}"></script>
 
 {% endblock %}
+
