@@ -120,7 +120,13 @@ def recipe_edit(request, username,  recipe_id):
         'form': form,
         'recipe': recipe,
         'ingredients': ingredients,
-        'tags': tags
+        'tags': tags,
                }
                   )
 
+@login_required
+def delete_recipe(request, recipe_id, username):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.user == recipe.author:
+        recipe.delete()
+    return redirect('index')

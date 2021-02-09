@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% block title %}
-    {% if recipe_view %}
+    {% if recipe %}
         Редактирование рецепта
     {% else %}
         Создание рецепта
@@ -17,7 +17,11 @@
 {% block content %}
     <div class="main__header">
         <h1 class="main__title">
-
+            {% if recipe %}
+                Редактирование рецепта
+            {% else %}
+                Создание рецепта
+            {% endif %}
         </h1>
     </div>
     <div class="form-container">
@@ -119,10 +123,15 @@
                 </div>
             </div>
             <div class="form__footer">
-                <button class="button button_style_blue">{% if recipe %} Редактирование рецепта {% else %} Создание
-                    рецепта  {% endif %}</button>
+                <button class="button button_style_blue">
+                    {% if recipe %}
+                        Редактирование рецепта
+                    {% else %}
+                        Создание рецепта
+                    {% endif %}
+                </button>
                 {% if recipe %}
-                    <a style="margin-left: 2.5em" href=""
+                    <a style="margin-left: 2.5em" href="{% url 'delete_recipe' recipe.author.username recipe.id %}"
                        class="form__ingredient-link">Удалить</a>
                 {% endif %}
             </div>
