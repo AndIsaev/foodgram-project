@@ -89,3 +89,38 @@ def recipe_view(request, username, recipe_id):
                   )
     # "following": following,
     # "subscriptions": subscriptions
+
+@login_required
+def recipe_edit(request, username,  recipe_id):
+
+    recipe = get_object_or_404(Recipe, id=recipe_id, author__username=username)
+
+    if recipe.author != request.user:
+        return redirect("recipe_view", username=username, recipe_id=recipe_id)
+
+
+    form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
+    if form.is_valid():
+        ingredients = get_dict_ingredient(request.POST)
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.save()
+        recipe.tags.set(form.cleaned_data['tags'])
+        Quantity.objects.filter(recipe_id=recipe.id).delete()
+        for ingredient, value in ingredients.items():
+            Quantity.objects.create(ingredient=ingredient,
+                                  recipe=recipe,
+                                  amount=value)
+
+        return redirect('recipe_view', username=username, recipe_id=recipe_id)
+
+    ingredients = Quantity.objects.filter(recipe=recipe_id)
+    tags = list(recipe.tags.values_list('title', flat=True))
+    return render(request, 'new.html', {
+        'form': form,
+        'recipe': recipe,
+        'ingredients': ingredients,
+        'tags': tags
+               }
+                  )
+

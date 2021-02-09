@@ -1,5 +1,11 @@
 {% extends "base.html" %} 
-{% block title %}Создание рецепта{% endblock %}
+{% block title %}
+    {% if recipe_view %}
+        Редактирование рецепта
+    {% else %}
+        Создание рецепта
+    {% endif %}
+{% endblock %}
 
 {% load user_filters %}
 
@@ -10,7 +16,9 @@
 
 {% block content %}
     <div class="main__header">
-        <h1 class="main__title">Создание рецепта</h1>
+        <h1 class="main__title">
+
+        </h1>
     </div>
     <div class="form-container">
         <form class="form" method="post" enctype="multipart/form-data">
@@ -34,19 +42,19 @@
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="breakfast" id="id_breakfast"
                                    class="tags__checkbox tags__checkbox_style_orange"
-                                   {% if 'breakfast' in active_tags %}checked{% endif %}>
+                                   {% if 'breakfast' in tags %}checked{% endif %}>
                             <label for="id_breakfast" class="tags__label">Завтрак</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="lunch" id="id_lunch"
                                    class="tags__checkbox tags__checkbox_style_green"
-                                   {% if 'lunch' in active_tags %}checked{% endif %}>
+                                   {% if 'lunch' in tags %}checked{% endif %}>
                             <label for="id_lunch" class="tags__label">Обед</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" value="dinner" id="id_dinner"
                                    class="tags__checkbox tags__checkbox_style_purple"
-                                   {% if 'dinner' in active_tags %}checked{% endif %}>
+                                   {% if 'dinner' in tags %}checked{% endif %}>
                             <label for="id_dinner" class="tags__label">Ужин</label>
                         </div>
                     </div>
@@ -114,7 +122,7 @@
                 <button class="button button_style_blue">{% if recipe %} Редактирование рецепта {% else %} Создание
                     рецепта  {% endif %}</button>
                 {% if recipe %}
-                    <a style="margin-left: 2.5em" href="{% url 'remove_recipe' recipe.author.username recipe.id %}"
+                    <a style="margin-left: 2.5em" href=""
                        class="form__ingredient-link">Удалить</a>
                 {% endif %}
             </div>
