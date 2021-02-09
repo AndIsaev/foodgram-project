@@ -76,12 +76,15 @@ def recipe_view(request, username, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id, author__username=username)
     form = RecipeForm(request.POST or None)
     author = recipe.author
+    ingredients = Quantity.objects.filter(recipe=recipe_id)
     # following = author.following.count()
     # subscriptions = author.follower.count()
     return render(request, "recipe_view.html", {
         "recipe": recipe,
         "author": author,
         "form": form,
-    })
+        "ingredients": ingredients
+    }
+                  )
     # "following": following,
     # "subscriptions": subscriptions
