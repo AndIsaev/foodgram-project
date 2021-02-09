@@ -56,6 +56,7 @@ def new_recipe(request):
 
 
 def profile(request, username):
+    """View the author's profile and recipes"""
     author = get_object_or_404(User, username=username)
     recipes = author.recipes.all()
     paginator = Paginator(recipes, 6)
