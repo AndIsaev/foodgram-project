@@ -39,5 +39,5 @@ urlpatterns += [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = "posts.views.page_not_found"  # noqa
-handler500 = "posts.views.server_error"  # noqa
+handler404 = "recipes.views.page_not_found"  # noqa
+handler500 = "recipes.views.server_error"  # noqa
