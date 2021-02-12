@@ -1,10 +1,16 @@
+import json
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.db.models import Sum
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import RecipeForm
-from .models import Recipe, Tag, Quantity, Ingredient, User
+from .models import (Recipe,
+                     Tag, Quantity,
+                     Ingredient, User, Follow, Purchase)
 
 
 def index(request):
@@ -15,7 +21,7 @@ def index(request):
     return render(
         request,
         'index.html',
-        {'page': page, }
+        {'page': page,}
     )
 
 
@@ -62,8 +68,6 @@ def profile(request, username):
     paginator = Paginator(recipes, 6)
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
-    # following = author.following.count()
-    # subscriptions = author.follower.count()
     return render(request, "profile.html", {"author": author,
                                             "count":paginator.count,
                                             "page": page,
@@ -78,8 +82,6 @@ def recipe_view(request, username, recipe_id):
     form = RecipeForm(request.POST or None)
     author = recipe.author
     ingredients = Quantity.objects.filter(recipe=recipe_id)
-    # following = author.following.count()
-    # subscriptions = author.follower.count()
     return render(request, "recipe_view.html", {
         "recipe": recipe,
         "author": author,
@@ -87,8 +89,6 @@ def recipe_view(request, username, recipe_id):
         "ingredients": ingredients
     }
                   )
-    # "following": following,
-    # "subscriptions": subscriptions
 
 @login_required
 def recipe_edit(request, username,  recipe_id):

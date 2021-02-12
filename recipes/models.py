@@ -77,3 +77,25 @@ class Quantity(models.Model):
                                verbose_name='Рецепт')
     amount = models.PositiveIntegerField(verbose_name='Количество')
 
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="follower"
+    )
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="following"
+    )
+
+    class Meta:
+        unique_together = ["user", "author"]
+
+
+class Purchase(models.Model):
+    """Рецетов на покупки"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='purchases',
+                             verbose_name='Пользователь')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               related_name='purchases',
+                               verbose_name='Рецепт')

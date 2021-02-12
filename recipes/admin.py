@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Tag, Ingredient, Quantity
+from .models import Recipe, Tag, Ingredient, Quantity, Purchase
 
 
 class QuantityInstanceInline(admin.TabularInline):
@@ -28,6 +28,11 @@ class QuantityAdmin(admin.ModelAdmin):
     search_fields = ('recipe',)
 
 
+class PurchaseAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe')
+    search_fields = ('user',)
+
+admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Tag, TagAdmin)

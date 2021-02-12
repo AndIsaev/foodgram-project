@@ -21,10 +21,9 @@ from django.conf import settings
 from django.conf.urls import handler404, handler500
 
 urlpatterns = [
-    #  регистрация и авторизация
-    path("auth/", include("users.urls")),
     path('admin/', admin.site.urls),
     path('', include('recipes.urls')),
+    path("auth/", include("users.urls")),
     path("auth/", include("django.contrib.auth.urls")),
     path('about/', include('django.contrib.flatpages.urls'))
 ]

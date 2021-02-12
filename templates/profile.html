@@ -5,8 +5,11 @@
 <link rel="stylesheet" href="{% static 'pages/index.css' %}">
 {% endblock %}
 
+{% load user_filters %}
+
 
 {% block content %}
+
 <main class="main container">
     <div class="main__header">
         <h1 class="main__title">{{ author.get_full_name }}</h1>
@@ -47,19 +50,21 @@
     {% endif %}
 </main>
 
-<script src="../recipes/static/js/components/MainCards.js"></script>
 
-<script src="../recipes/static/js/components/Purchases.js"></script>
-<script src="../recipes/static/js/components/Favorites.js"></script>
-<script src="../recipes/static/js/components/Subscribe.js"></script>
 
-<script src="../recipes/static/js/config/config.js"></script>
-<script src="../recipes/static/js/components/AuthorRecipe.js"></script>
-<script src="../recipes/static/js/components/Header.js"></script>
+  <script src="{% static 'js/config/config.js' %}"></script>
+  <script src="{% static 'js/components/MainCards.js' %}"></script>
 
-<script src="../recipes/static/js/api/Api.js"></script>
-<script src="../recipes/static/authorRecipe.js"></script>
-</body>
-</html>
+  <script src="{% static 'js/components/Purchases.js' %}"></script>
+  <script src="{% static 'js/components/Favorites.js' %}"></script>
+  <script src="{% static 'js/components/Subscribe.js' %}"></script>
+
+  <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
+  <script src="{% static 'js/components/Header.js' %}"></script>
+
+  <script src="{% static 'js/api/Api.js' %}"></script>
+  <script src="{% static 'authorRecipe.js' %}"></script>
+
+
 
 {% endblock %}

@@ -106,7 +106,7 @@
         </div>
         <div class="card-user" data-author="7091">
             <div class="card-user__header">
-                <h2 class="card-user__title">Вероника Чернова</h2>
+                <h2 class="card-user__title"> {{ author.get_full_name }}</h2>
             </div>
             <div class="card-user__body">
                 <ul class="card-user__items">
@@ -153,22 +153,11 @@
         </ul>
     </nav>
 </main>
-<footer class="footer">
-    <div class="footer__container container">
-        <a href="#" class="footer__brand link">Продуктовый помощник</a>
-        <ul class="footer__items">
-            <li class="footer__item"><a href="#" class="footer__link link">Об авторе </a></li>
-            <li class="footer__item"><a href="#" class="footer__link link">Технологии</a></li>
-        </ul>
-    </div>
-</footer>
-<script src="../recipes/static/js/config/config.js"></script>
-<script src="../recipes/static/js/components/MainCards.js"></script>
-<script src="../recipes/static/js/components/MyFollow.js"></script>
-<script src="../recipes/static/js/components/Subscribe.js"></script>
-<script src="../recipes/static/js/components/Header.js"></script>
-<script src="../recipes/static/js/api/Api.js"></script>
-<script src="../recipes/static/myFollow.js"></script>
 
-</body>
-</html>
+<script src="{% static 'js/config/config.js' %}"></script>
+<script src="{% static 'js/components/MainCards.js' %}"></script>
+<script src="{% static 'js/components/MyFollow.js' %}"></script>
+<script src="{% static 'js/components/Subscribe.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'myFollow.js' %}"></script>
