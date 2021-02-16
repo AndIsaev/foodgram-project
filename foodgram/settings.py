@@ -40,8 +40,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'recipes',
     'users',
-    'django.contrib.flatpages',
     'django.contrib.sites',
+    'django.contrib.flatpages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sorl.thumbnail',
-    'rest_framework',
-
 ]
 
 MIDDLEWARE = [

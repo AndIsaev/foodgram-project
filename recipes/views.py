@@ -32,11 +32,9 @@ def server_error(request):
 
 def get_filters_recipes(request, *args, **kwargs):
     filters = request.GET.getlist('filters')
-    print(filters,'-----------------------------------------------------------------')
     if filters:
         recipes = Recipe.objects.filter(
             tags__title__in=filters).filter(**kwargs).distinct()
-        print(recipes, '--------------------------------------------------------------')
     else:
         recipes = Recipe.objects.filter(**kwargs).all()
 
@@ -55,11 +53,7 @@ def index(request):
     )
 
 
-def found_ingredient(request):
-    query = request.GET.get("query").lower()[:-1]
-    ingredients = Ingredient.objects.filter(
-        title__icontains=query).values("title", "dimension").order_by('title')
-    return JsonResponse(list(ingredients), safe=False)
+
 
 
 def get_dict_ingredient(request_obj):
@@ -162,27 +156,7 @@ def delete_recipe(request, recipe_id, username):
     return redirect('index')
 
 
-@login_required
-@csrf_exempt
-def add_favorites(request):
-    body = json.loads(request.body)
-    recipe = get_object_or_404(Recipe, id=int(body['id']))
-    user = request.user
 
-    Favorite.objects.get_or_create(user=user, recipe=recipe)
-
-    return JsonResponse({"success": True})
-
-
-@login_required
-@csrf_exempt
-def remove_favorites(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id)
-    user = request.user
-
-    Favorite.objects.filter(user=user, recipe=recipe).delete()
-
-    return JsonResponse({"success": True})
 
 
 
