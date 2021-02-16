@@ -19,10 +19,14 @@
         <main class="main container">
             {% block content %}
 
-            {% endblock content %}
+            {% endblock %}
         </main>
 
     {% include 'footer.html' %}
+
+    {% block script %}
+
+    {% endblock %}
 
     </body>
 </html>

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %} Рецепт автора: {{ author.get_full_name }} {% endblock %}
+{% load user_filters %}
 {% load static %}
 {% block static %}
 <link rel="stylesheet" href="{% static 'pages/single.css' %}">
@@ -15,8 +16,14 @@
             <div class="single-card__info">
                 <div class="single-card__header-info">
                     <h1 class="single-card__title">{{ recipe.title }}</h1>
+                    {% csrf_token %}
                     <div class="single-card__favorite">
-                        <button class="button button_style_none" name="favorites" data-out><span class="icon-favorite icon-favorite_big"></span></button>
+                        <button class="button button_style_none" name="favorites"
+                                {% if not request.is_anonymous and request.user|check_favorites:recipe %}
+                                    ><span class="icon-favorite icon-favorite_big icon-favorite_active"></span></button>
+                                {% else %}
+                                    data-out><span class="icon-favorite icon-favorite_big"></span></button>
+                                {% endif %}
                         <div class="single-card__favorite-tooltip tooltip">Добавить в избранное</div>
                     </div>
                 </div>

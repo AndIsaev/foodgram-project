@@ -23,5 +23,13 @@
         <button class="button button_style_light-blue" name="purchases" data-out><span
                 class="icon-plus button__icon"></span>Добавить в покупки
         </button>
+        <button class="button button_style_none"
+                name="favorites"
+                {% if not request.is_anonymous and request.user|check_favorites:recipe %}
+                    ><span class="icon-favorite icon-favorite_active">
+                {% else %}
+                    data-out><span class="icon-favorite"></span>
+                {% endif %}
+        </span></button>
     </div>
 </div>

@@ -6,11 +6,41 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import RecipeForm
 from .models import (Recipe,
                      Tag, Quantity,
-                     Ingredient, User, Follow, Purchase)
+                     Ingredient, User, Follow, Purchase, Favorite)
+
+
+
+def page_not_found(request, exception):
+    """error 404"""
+    return render(
+        request,
+        "misc/404.html",
+        {"path": request.path},
+        status=404
+    )
+
+
+def server_error(request):
+    """error 500"""
+    return render(request, "misc/500.html", status=500)
+
+
+def get_filters_recipes(request, *args, **kwargs):
+    filters = request.GET.getlist('filters')
+    print(filters,'-----------------------------------------------------------------')
+    if filters:
+        recipes = Recipe.objects.filter(
+            tags__title__in=filters).filter(**kwargs).distinct()
+        print(recipes, '--------------------------------------------------------------')
+    else:
+        recipes = Recipe.objects.filter(**kwargs).all()
+
+    return filters, recipes
 
 
 def index(request):
@@ -132,16 +162,46 @@ def delete_recipe(request, recipe_id, username):
     return redirect('index')
 
 
-def page_not_found(request, exception):
-    """error 404"""
-    return render(
-        request,
-        "misc/404.html",
-        {"path": request.path},
-        status=404
-    )
+@login_required
+@csrf_exempt
+def add_favorites(request):
+    body = json.loads(request.body)
+    recipe = get_object_or_404(Recipe, id=int(body['id']))
+    user = request.user
+
+    Favorite.objects.get_or_create(user=user, recipe=recipe)
+
+    return JsonResponse({"success": True})
 
 
-def server_error(request):
-    """error 500"""
-    return render(request, "misc/500.html", status=500)
+@login_required
+@csrf_exempt
+def remove_favorites(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    user = request.user
+
+    Favorite.objects.filter(user=user, recipe=recipe).delete()
+
+    return JsonResponse({"success": True})
+
+
+
+@login_required
+def favorites(request):
+    user = request.user
+    filters, recipes = get_filters_recipes(request, favorites__user=user)
+
+    tags = Tag.objects.all()
+
+    paginator = Paginator(recipes, 3)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    content = {'page': page,
+               'paginator': paginator,
+               'tags': tags,
+               'filter': filters,
+               'favorite': True,
+               }
+
+    return render(request, 'favorite.html', content)

@@ -33,18 +33,30 @@
         {% include "paginator.html" with items=page paginator=paginator %}
     {% endif %}
 </main>
+{% endblock %}
 
+{% block script %}
+    <script src="{% static 'js/components/MainCards.js' %}"></script>
+    <script src="{% static 'js/components/Purchases.js' %}"></script>
+    <script src="{% static 'js/components/Favorites.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
+    <script src="{% static 'js/config/config.js' %}"></script>
+    <script src="{% static 'js/api/Api.js' %}"></script>
 
-<script src="{% static 'js/components/Purchases.js' %}"></script>
-<script src="{% static 'js/config/config.js' %}"></script>
-
-<script src="{% static 'js/components/MainCards.js' %}"></script>
-<script src="{% static 'js/components/SingleCard.js' %}"></script>
-<script src="{% static 'js/components/Header.js' %}"></script>
-
-<script src="{% static 'js/api/Api.js' %}"></script>
-<script src="{% static 'singlePageNotAuth.js' %}"></script>
-
-
+    {% if author %}
+        <script src="{% static 'js/components/Subscribe.js' %}"></script>
+        <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
+        <script src="{% static 'authorRecipe.js' %}"></script>
+    {% elif favorite %}
+        <script src="{% static 'js/components/CardList.js' %}"></script>
+        <script src="{% static 'favorite.js' %}"></script>
+    {% else %}
+        <script src="{% static 'js/components/CardList.js' %}"></script>
+        {% if user.is_authenticated %}
+            <script src="{% static 'indexAuth.js' %}"></script>
+        {% else %}
+            <script src="{% static 'indexNotAuth.js' %}"></script>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 

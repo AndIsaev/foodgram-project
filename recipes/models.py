@@ -99,3 +99,13 @@ class Purchase(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
                                related_name='purchases',
                                verbose_name='Рецепт')
+
+
+class Favorite(models.Model):
+    """Рецепты избранные"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='favorites',
+                             verbose_name='Пользователь')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               related_name='favorites',
+                               verbose_name='Понравившейся рецепт')

@@ -1,6 +1,6 @@
 from django import template
 
-from recipes.models import Follow, Purchase
+from recipes.models import Follow, Purchase, Favorite
 
 register = template.Library()
 
@@ -31,6 +31,11 @@ def check_purchase(user, recipe):
     result = Purchase.objects.filter(user=user, recipe=recipe).exists()
     return result
 
+
+@register.filter(name='check_favorites')
+def check_favorites(user, recipe):
+    result = Favorite.objects.filter(user=user, recipe=recipe).exists()
+    return result
 
 @register.filter(name='get_count_purchase')
 def get_count_purchase(user):
