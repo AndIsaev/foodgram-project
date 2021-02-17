@@ -6,18 +6,17 @@
             src="{{ img.url }}" alt="{{ recipe.title }}" class="card__image"></a>
     {% endthumbnail %}
     <div class="card__body">
-        <a class="card__title link" href="{% url 'recipe_view' recipe.author.username recipe.id %}"
-           target="_blank">{{ recipe.title }}</a>
+        <a class="card__title link" href="{% url 'recipe_view' recipe.author.username recipe.id %}" target="_blank">{{ recipe.title }}</a>
         <ul class="card__items">
             {% for tag in recipe.tags.all %}
                 {% if "breakfast" == tag.title %}
-                    <li class="card__items"><span class="badge badge_style_orange">{{ tag.display_name }}</span></li>
+                    <li class="single-card__item"><span class="badge badge_style_orange">{{ tag.display_name }} </span></li>
                 {% endif %}
                 {% if "lunch" == tag.title %}
-                    <li class="card__items"><span class="badge badge_style_green">{{ tag.display_name }}</span></li>
+                    <li class="single-card__item"><span class="badge badge_style_green">{{ tag.display_name }} </span></li>
                 {% endif %}
                 {% if "dinner" == tag.title %}
-                    <li class="card__items"><span class="badge badge_style_purple">{{ tag.display_name }}</span></li>
+                    <li class="single-card__item"><span class="badge badge_style_purple">{{ tag.display_name }}</span></li>
                 {% endif %}
             {% endfor %}
         </ul>
@@ -30,9 +29,15 @@
     </div>
     {% csrf_token %}
     <div class="card__footer">
-        <button class="button button_style_light-blue" name="purchases" data-out><span
-                class="icon-plus button__icon"></span>Добавить в покупки
-        </button>
+        {% if not request.is_anonymous and request.user|check_purchase:recipe %}
+            <button class="button button_style_light-blue-outline" name="purchases"><span
+                    class="icon-check button__icon"></span> Рецепт добавлен
+            </button>
+        {% else %}
+            <button class="button button_style_light-blue" name="purchases" data-out><span
+                    class="icon-plus button__icon"></span>Добавить в покупки
+            </button>
+        {% endif %}
         {% if user.is_authenticated %}
         <button class="button button_style_none"
                 name="favorites"

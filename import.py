@@ -19,3 +19,5 @@ if 3 in f:
     print(3)
 else:
     print(f'{3} нету')
+
+
