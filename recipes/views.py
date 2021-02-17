@@ -32,7 +32,8 @@ def index(request):
     return render(
         request,
         'index.html',
-        {'page': page,}
+        {'page': page,
+         'paginator': paginator}
     )
 
 

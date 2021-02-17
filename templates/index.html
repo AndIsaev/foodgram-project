@@ -7,23 +7,23 @@
 
 {% block content %}
 <main class="main container">
-<div class="main__header">
-    <h1 class="main__title">Рецепты</h1>
-    <ul class="tags">
-        <li class="tags__item">
-            <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="#"></a>
-            <span class="tags__label">Завтрак</span>
-        </li>
-        <li class="tags__item">
-            <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="#"></a>
-            <span for="lunch" class="tags__label">Обед</span>
-        </li>
-        <li class="tags__item">
-            <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="#"></a>
-            <label for="dinner" class="tags__label">Ужин</label>
-        </li>
-    </ul>
-</div>
+    <div class="main__header">
+        <h1 class="main__title">Рецепты</h1>
+        <ul class="tags">
+            <li class="tags__item">
+                <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="#"></a>
+                <span class="tags__label">Завтрак</span>
+            </li>
+            <li class="tags__item">
+                <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="#"></a>
+                <span for="lunch" class="tags__label">Обед</span>
+            </li>
+            <li class="tags__item">
+                <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="#"></a>
+                <label for="dinner" class="tags__label">Ужин</label>
+            </li>
+        </ul>
+    </div>
     <div class="card-list">
         {% for recipe in page %}
             {% include "recipe_item.html" with recipe=recipe %}
@@ -36,27 +36,23 @@
 {% endblock %}
 
 {% block script %}
+    <script src="{% static 'js/config/config.js' %}"></script>
     <script src="{% static 'js/components/MainCards.js' %}"></script>
+
     <script src="{% static 'js/components/Purchases.js' %}"></script>
     <script src="{% static 'js/components/Favorites.js' %}"></script>
-    <script src="{% static 'js/components/Header.js' %}"></script>
-    <script src="{% static 'js/config/config.js' %}"></script>
-    <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'js/components/Subscribe.js' %}"></script>
 
-    {% if author %}
-        <script src="{% static 'js/components/Subscribe.js' %}"></script>
-        <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
-        <script src="{% static 'authorRecipe.js' %}"></script>
-    {% elif favorite %}
-        <script src="{% static 'js/components/CardList.js' %}"></script>
-        <script src="{% static 'favorite.js' %}"></script>
+    <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
+
+    <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'authorRecipe.js' %}"></script>
+
+    {% if user.is_authenticated %}
+        <script src="{% static 'indexAuth.js' %}"></script>
     {% else %}
-        <script src="{% static 'js/components/CardList.js' %}"></script>
-        {% if user.is_authenticated %}
-            <script src="{% static 'indexAuth.js' %}"></script>
-        {% else %}
-            <script src="{% static 'indexNotAuth.js' %}"></script>
-        {% endif %}
+        <script src="{% static 'indexNotAuth.js' %}"></script>
     {% endif %}
 {% endblock %}
 

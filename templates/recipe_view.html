@@ -18,6 +18,7 @@
             <div class="single-card__header-info">
                 <h1 class="single-card__title">{{ recipe.title }}</h1>
                 {% csrf_token %}
+                {% if user.is_authenticated %}
                 <div class="single-card__favorite">
                     <button class="button button_style_none" name="favorites"
                             {% if not request.is_anonymous and request.user|check_favorites:recipe %}
@@ -27,22 +28,22 @@
                             {% endif %}
                     <div class="single-card__favorite-tooltip tooltip">Добавить в избранное</div>
                 </div>
+                {% endif %}
             </div>
             <ul class="single-card__items">
                 {% for tag in recipe.tags.all %}
-                    {% if "breakfast" == tag.key %}
-                        <li class="single-card__item"><span class="badge badge_style_orange">{{ tag.value }}</span></li>
+                    {% if "breakfast" == tag.title %}
+                        <li class="single-card__item"><span class="badge badge_style_orange">{{ tag.display_name }}</span></li>
                     {% endif %}
 
-                    {% if "lunch" == tag.key %}
-                        <li class="single-card__item"><span class="badge badge_style_green">{{ tag.value }}</span></li>
+                    {% if "lunch" == tag.title %}
+                        <li class="single-card__item"><span class="badge badge_style_green">{{ tag.display_name }}</span></li>
                     {% endif %}
 
-                    {% if "dinner" == tag.key %}
-                        <li class="single-card__item"><span class="badge badge_style_purple">{{ tag.value }}</span></li>
+                    {% if "dinner" == tag.title %}
+                        <li class="single-card__item"><span class="badge badge_style_purple">{{ tag.display_name }}</span></li>
                     {% endif %}
                 {% endfor %}
-
             </ul>
             <div class="single-card__items single-card__items_column">
                 <p class="single-card__text"><span class="icon-time"></span> {{ recipe.time }} мин.</p>
@@ -69,6 +70,7 @@
                         </button>
                     {% endif %}
                 </li>
+                {% if user.is_authenticated %}
                 <li class="single-card__item">
                     <button class="button button_style_light-blue button_size_subscribe" name="subscribe"
                             {% if recipe.author|check_following:request.user %}
@@ -78,6 +80,7 @@
                             {% endif %}
                     </button>
                 </li>
+                {% endif %}
             </ul>
             <div class="single-card__section">
                 <h3 class="single-card__section-title">Ингридиенты:</h3>

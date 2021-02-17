@@ -31,6 +31,7 @@
 
     </div>
     {% csrf_token %}
+    {% if user.is_authenticated %}
     <div class="author-subscribe" data-author="{{ author.id }}">
         <p style="padding: 0 0 2em 0;">
             <button class="button button_style_light-blue button_size_subscribe" name="subscribe"
@@ -42,6 +43,7 @@
             </button>
         </p>
     </div>
+    {% endif %}
 
     <div class="card-list">
         {% for recipe in page %}
