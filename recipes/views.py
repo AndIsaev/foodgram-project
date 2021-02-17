@@ -21,16 +21,18 @@ def get_filters_recipes(request, *args, **kwargs):
 
 def index(request):
     "main page"
-    recipes_list = Recipe.objects.all().order_by('-pub_date')
-    paginator = Paginator(recipes_list, 6)
+    filters, recipes = get_filters_recipes(request)
+    paginator = Paginator(recipes, 6)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    tags = Tag.objects.all()
     return render(
         request,
         'index.html',
         {'page': page,
-         'paginator': paginator,}
-    )
+         'paginator': paginator,
+         'tags': tags,
+         'filter':filters})
 
 
 def get_dict_ingredient(request_obj):

@@ -10,10 +10,10 @@
         <ul class="card__items">
             {% for tag in recipe.tags.all %}
                 {% if "breakfast" == tag.title %}
-                    <li class="single-card__item"><span class="badge badge_style_orange">{{ tag.display_name }} </span></li>
+                    <li class="single-card__item"><span class="badge badge_style_orange">{{ tag.display_name }}</span></li>
                 {% endif %}
                 {% if "lunch" == tag.title %}
-                    <li class="single-card__item"><span class="badge badge_style_green">{{ tag.display_name }} </span></li>
+                    <li class="single-card__item"><span class="badge badge_style_green">{{ tag.display_name }}</span></li>
                 {% endif %}
                 {% if "dinner" == tag.title %}
                     <li class="single-card__item"><span class="badge badge_style_purple">{{ tag.display_name }}</span></li>

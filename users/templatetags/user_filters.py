@@ -42,3 +42,25 @@ def count_recipe(recipe_count):
         return f'{count} рецепта'
     else:
         return f'{count} рецептов'
+
+# @register.filter('filter_recipes')
+# def filter_recipes(user, tags):
+#     result = Recipe.objects.filter(user=user,tags=tags)
+#     return result
+
+
+@register.filter(name='filter_recipes')
+def filter_recipes(request, tag):
+    request_add = request.GET.copy()
+    print(request_add)
+
+    if tag.title in request.GET.getlist('filters'):
+        print(tag)
+        filters = request_add.getlist('filters')
+        print(filters)
+        filters.remove(tag.title)
+        request_add.setlist('filters', filters)
+    else:
+        request_add.appendlist('filters', tag.title)
+
+    return request_add.urlencode()
