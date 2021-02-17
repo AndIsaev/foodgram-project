@@ -14,3 +14,8 @@ while k != len(n):
 h = [{1 : 3}, {2 : 3}]
 print(h[1])
 
+f = [ 6, 7]
+if 3 in f:
+    print(3)
+else:
+    print(f'{3} нету')

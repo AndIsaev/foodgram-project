@@ -7,27 +7,10 @@ from django.db.models import Sum
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
 from .forms import RecipeForm
 from .models import (Recipe,
                      Tag, Quantity,
                      Ingredient, User, Follow, Purchase, Favorite)
-
-
-
-def page_not_found(request, exception):
-    """error 404"""
-    return render(
-        request,
-        "misc/404.html",
-        {"path": request.path},
-        status=404
-    )
-
-
-def server_error(request):
-    """error 500"""
-    return render(request, "misc/500.html", status=500)
 
 
 def get_filters_recipes(request, *args, **kwargs):
@@ -51,9 +34,6 @@ def index(request):
         'index.html',
         {'page': page,}
     )
-
-
-
 
 
 def get_dict_ingredient(request_obj):
@@ -156,10 +136,6 @@ def delete_recipe(request, recipe_id, username):
     return redirect('index')
 
 
-
-
-
-
 @login_required
 def favorites(request):
     user = request.user
@@ -179,3 +155,35 @@ def favorites(request):
                }
 
     return render(request, 'favorite.html', content)
+
+
+@login_required
+def subscriptions(request):
+    user = request.user
+    authors = User.objects.filter(
+        following__user=user).prefetch_related('recipes').order_by('-username')
+    paginator = Paginator(authors, 3)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+
+    context = {'page': page, 'paginator': paginator, }
+
+    return render(request, 'subscription.html', context)
+
+
+@login_required
+def purchase(request):
+    user = request.user
+    purchases = Purchase.objects.filter(user=user).prefetch_related('recipe')
+    content = {'purchases': purchases, }
+    return render(request, 'shopList.html', content)
+
+
+@login_required
+def remove_purchase(request, recipe_id):
+    user = request.user
+    purchase = get_object_or_404(Purchase, recipe=recipe_id, user=user.id)
+    purchase.delete()
+
+    return redirect('purchase')
+

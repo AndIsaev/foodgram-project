@@ -30,11 +30,15 @@
         </ul>
 
     </div>
-    <!--        <p style="padding: 0 0 2em 0;"><a class="button button_style_light-blue" href="#">Подписаться на автора</a></p>-->
-    <div class="author-subscribe" data-author="323">
+    {% csrf_token %}
+    <div class="author-subscribe" data-author="{{ author.id }}">
         <p style="padding: 0 0 2em 0;">
-            <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>Подписаться
-                на автора
+            <button class="button button_style_light-blue button_size_subscribe" name="subscribe"
+                    {% if author|check_following:request.user %}
+                        >Отписаться от автора
+                    {% else %}
+                        data-out>Подписаться на автора
+                    {% endif %}
             </button>
         </p>
     </div>
@@ -51,7 +55,7 @@
 </main>
 
 
-
+{% block script %}
   <script src="{% static 'js/config/config.js' %}"></script>
   <script src="{% static 'js/components/MainCards.js' %}"></script>
 
@@ -64,7 +68,7 @@
 
   <script src="{% static 'js/api/Api.js' %}"></script>
   <script src="{% static 'authorRecipe.js' %}"></script>
-
+{% endblock %}
 
 
 {% endblock %}
