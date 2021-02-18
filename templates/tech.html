@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Технологии{% endblock %}
+
+{% load static %}
+{% block static %}
+	<link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+	{% block content %}
+	<div class="custom-center-block">
+		<p class="custom-text-block"> Для создания этого сайта были использованы:</p>
+		<div class="custom-button-block">
+            <li class="tags__item">
+			    <a href="https://www.python.org/" class="button button_style_blue">Python</a>
+            </li>
+            <li class="tags__item">
+                <a href="https://www.djangoproject.com/" class="button button_style_blue">Django</a>
+            </li>
+            <li class="tags__item">
+                <a href="https://www.docker.com/" class="button button_style_blue">Docker</a>
+            </li>
+		</div>
+	</div>
+  {% endblock %}

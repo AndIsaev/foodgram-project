@@ -25,7 +25,7 @@
                    {% if author %}
                    href="{% url 'profile' author.username %}?{{ request|filter_recipes:tag }}">
                     {% elif favorite %}
-                    href="{% url 'favorite' %}?{{ request|filter_recipes:tag }}">
+                    href="{% url 'favorites' %}?{{ request|filter_recipes:tag }}">
                     {% else %}
                     href="{% url 'index' %}?{{ request|filter_recipes:tag }}">
                     {% endif %}

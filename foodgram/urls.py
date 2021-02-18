@@ -28,15 +28,17 @@ urlpatterns = [
     path('about/', include('django.contrib.flatpages.urls'))
 ]
 
-urlpatterns += [
-    path('about-author/', views.flatpage,
-         {'url': '/about-author/'}, name='about-author'),
-    path('about-spec/', views.flatpage,
-         {'url': '/about-spec/'}, name='about-spec'),
-]
+# urlpatterns += [
+#     path('about-author/', views.flatpage,
+#          {'url': '/about-author/'}, name='about-author'),
+#     path('about-spec/', views.flatpage,
+#          {'url': '/about-spec/'}, name='about-spec'),
+# ]
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 handler404 = "foodgram.errors.page_not_found"  # noqa
 handler500 = "foodgram.errors.server_error"  # noqa

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Об авторе{% endblock %}
+
+{% load static %}
+{% block static %}
+	<link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+	{% block content %}
+	<div class="custom-center-block">
+		<p class="custom-text-block"> Этот сайт сделал Исаев Андрей, студент Яндекс Практикума</p>
+		<div class="custom-button-block">
+			<a href="https://github.com/AndIsaev" class="button button_style_blue">Ссылка на GitHub</a>
+		</div>
+	</div>
+  {% endblock %}
