@@ -28,16 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*', ]
 
 
-# ALLOWED_HOSTS = [
-#     "localhost",
-#     "127.0.0.1",
-#     "[::1]",
-#     "testserver",
-# ]
-
 # Application definition
 
 INSTALLED_APPS = [
+    'api',
     'recipes',
     'users',
     'django.contrib.sites',
@@ -49,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sorl.thumbnail',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +142,6 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 SITE_ID = 2
+
+PAGES = 6
+PAGES_SUBSCRIBE = 3

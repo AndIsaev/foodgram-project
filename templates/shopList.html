@@ -26,7 +26,7 @@
                         <h3 class="recipe__title">{{ purchase.recipe.title }}</h3>
                         <p class="recipe__text"><span class="icon-time"></span> {{ purchase.recipe.time }} мин.</p>
                     </div>
-                    <a href="{% url 'remove_purchase' purchase.recipe.id %}"
+                    <a href="#"
                        class="shopping-list__button link">Удалить
                     </a>
                 </li>
@@ -39,7 +39,7 @@
 {% endblock %}
 
     {% if page.has_other_pages %}
-        {% include "paginator.html" with items=page paginator=paginator %}
+        {% include "includes/paginator.html" with items=page paginator=paginator %}
     {% endif %}
 
 {% block script %}

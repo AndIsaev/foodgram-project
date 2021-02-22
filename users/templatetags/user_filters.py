@@ -47,7 +47,6 @@ def count_recipe(recipe_count):
 @register.filter(name='filter_recipes')
 def filter_recipes(request, tag):
     request_add = request.GET.copy()
-    print(request_add)
 
     if tag.title in request.GET.getlist("filters"):
         filters = request_add.getlist("filters")

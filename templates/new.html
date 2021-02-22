@@ -1,11 +1,5 @@
 {% extends "base.html" %} 
-{% block title %}
-    {% if recipe %}
-        Редактирование рецепта
-    {% else %}
-        Создание рецепта
-    {% endif %}
-{% endblock %}
+{% block title %}{{ title_text }}{% endblock %}
 
 {% load user_filters %}
 

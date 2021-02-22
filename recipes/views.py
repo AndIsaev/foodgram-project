@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
+from foodgram.settings import PAGES, PAGES_SUBSCRIBE
 from .forms import RecipeForm
 from .models import (Recipe,
                      Tag, Quantity,
@@ -20,9 +21,9 @@ def get_filters_recipes(request, *args, **kwargs):
 
 
 def index(request):
-    "main page"
+    """Return main page."""
     filters, recipes = get_filters_recipes(request)
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, PAGES)
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
     tags = Tag.objects.all()
@@ -39,7 +40,8 @@ def get_dict_ingredient(request_obj):
     tmp = dict()
     for key in request_obj:
         if key.startswith("nameIngredient"):
-            ingredient = get_object_or_404(Ingredient, title=request_obj[key])
+            ingredient = get_object_or_404(Ingredient,
+                                           title=request_obj[key])
             value = key[15:]
             tmp[ingredient] = request_obj["valueIngredient_" + value]
     return tmp
@@ -47,8 +49,9 @@ def get_dict_ingredient(request_obj):
 
 @login_required
 def new_recipe(request):
-    "create recipe"
-    form = RecipeForm(request.POST or None, files=request.FILES or None)
+    """Create new recipe."""
+    form = RecipeForm(request.POST or None,
+                      files=request.FILES or None)
 
     if form.is_valid():
         ingredients = get_dict_ingredient(request.POST)
@@ -62,15 +65,17 @@ def new_recipe(request):
                                   recipe=recipe,
                                   amount=value)
         return redirect("index")
-    return render(request, "new.html", {"form": form})
+    return render(request, "new.html",
+                  {"form": form,
+                   "title_text":"Добавить запись",})
 
 
 def profile(request, username):
-    """View the author's profile and recipes"""
+    """Return view the author's profile and recipes"""
     author = get_object_or_404(User, username=username)
     filters, recipes = get_filters_recipes(request, author=author.id)
     tags = Tag.objects.all()
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, PAGES)
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
     return render(request, "profile.html", {"author": author,
@@ -79,13 +84,15 @@ def profile(request, username):
                                             "recipes": recipes,
                                             "paginator": paginator,
                                             "tags": tags,
-                                            "filter":filters
+                                            "filter":filters,
                                             })
 
 
 def recipe_view(request, username, recipe_id):
-    """recipe personally"""
-    recipe = get_object_or_404(Recipe, id=recipe_id, author__username=username)
+    """Return view recipe."""
+    recipe = get_object_or_404(Recipe,
+                               id=recipe_id,
+                               author__username=username)
     form = RecipeForm(request.POST or None)
     author = recipe.author
     ingredients = Quantity.objects.filter(recipe=recipe_id)
@@ -99,13 +106,19 @@ def recipe_view(request, username, recipe_id):
 
 @login_required
 def recipe_edit(request, username,  recipe_id):
-    "edit recipe"
-    recipe = get_object_or_404(Recipe, id=recipe_id, author__username=username)
+    """Edit recipe."""
+    recipe = get_object_or_404(Recipe,
+                               id=recipe_id,
+                               author__username=username)
 
     if recipe.author != request.user:
-        return redirect("recipe_view", username=username, recipe_id=recipe_id)
+        return redirect("recipe_view",
+                        username=username,
+                        recipe_id=recipe_id)
 
-    form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
+    form = RecipeForm(request.POST or None,
+                      files=request.FILES or None,
+                      instance=recipe)
     if form.is_valid():
         ingredients = get_dict_ingredient(request.POST)
         recipe = form.save(commit=False)
@@ -114,7 +127,6 @@ def recipe_edit(request, username,  recipe_id):
         recipe.tags.set(form.cleaned_data["tags"])
         Quantity.objects.filter(recipe_id=recipe.id).delete()
         for ingredient, value in ingredients.items():
-            print(ingredient, value)
             Quantity.objects.create(ingredient=ingredient,
                                   recipe=recipe,
                                   amount=value)
@@ -129,12 +141,13 @@ def recipe_edit(request, username,  recipe_id):
         "recipe": recipe,
         "ingredients": ingredients,
         "tags": tags,
+        "title_text": "Редактирование рецепта",
                }
                   )
 
 @login_required
 def delete_recipe(request, recipe_id, username):
-    "delete recipe"
+    """Delete recipe."""
     recipe = get_object_or_404(Recipe, id=recipe_id)
     if request.user == recipe.author:
         recipe.delete()
@@ -143,11 +156,11 @@ def delete_recipe(request, recipe_id, username):
 
 @login_required
 def favorites(request):
-    "favorites recipes"
+    """Return favorites recipe."""
     user = request.user
     filters, recipes = get_filters_recipes(request, favorites__user=user)
     tags = Tag.objects.all()
-    paginator = Paginator(recipes, 6)
+    paginator = Paginator(recipes, PAGES)
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
 
@@ -162,11 +175,12 @@ def favorites(request):
 
 @login_required
 def subscriptions(request):
-    "following"
+    """Return subscriptions and recipes."""
     user = request.user
     authors = User.objects.filter(
-        following__user=user).prefetch_related("recipes").order_by("-username")
-    paginator = Paginator(authors, 3)
+        following__user=user).prefetch_related(
+        "recipes").order_by("-username")
+    paginator = Paginator(authors, PAGES_SUBSCRIBE)
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
 
@@ -177,16 +191,7 @@ def subscriptions(request):
 
 @login_required
 def purchase(request):
+    """Return purchases."""
     user = request.user
     purchases = Purchase.objects.filter(user=user).prefetch_related("recipe")
     return render(request, "shopList.html", {"purchases": purchases, })
-
-
-@login_required
-def remove_purchase(request, recipe_id):
-    user = request.user
-    purchase = get_object_or_404(Purchase, recipe=recipe_id, user=user.id)
-    purchase.delete()
-
-    return redirect("purchase")
-

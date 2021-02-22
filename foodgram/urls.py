@@ -15,25 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.flatpages import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import handler404, handler500
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
     path('', include('recipes.urls')),
     path("auth/", include("users.urls")),
     path("auth/", include("django.contrib.auth.urls")),
-    path('about/', include('django.contrib.flatpages.urls'))
+    path('about/', include('django.contrib.flatpages.urls')),
 ]
-
-# urlpatterns += [
-#     path('about-author/', views.flatpage,
-#          {'url': '/about-author/'}, name='about-author'),
-#     path('about-spec/', views.flatpage,
-#          {'url': '/about-spec/'}, name='about-spec'),
-# ]
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

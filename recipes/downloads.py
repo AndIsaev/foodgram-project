@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 
 def get_file_content(ingredients, user):
-    filename = (f'Shopping list from ' 
+    filename = ('Shopping list from ' 
                f'{datetime.now().strftime("%d.%m.%y %H.%M.%S")}.txt')
     file_content = ''
     for ingredient in ingredients:

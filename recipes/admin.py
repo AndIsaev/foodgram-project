@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Recipe, Tag, Ingredient, Quantity, Purchase, Favorite, Follow
+from .models import (Recipe, Tag,
+                     Ingredient, Quantity,
+                     Purchase, Favorite,
+                     Follow)
 
 
 class QuantityInstanceInline(admin.TabularInline):
@@ -8,9 +11,9 @@ class QuantityInstanceInline(admin.TabularInline):
 
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ("author", "title", "pub_date")
-    search_fields = ("title", )
+    search_fields = ("title",)
     list_filter = ("pub_date",)
-    inlines = [QuantityInstanceInline, ]
+    inlines = [QuantityInstanceInline,]
     empty_value_display = "-пусто-"
 
 
@@ -32,15 +35,12 @@ class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     search_fields = ('user',)
 
-
 class FavoriteAdmin(admin.ModelAdmin):
-    """Рецепты избранные"""
     list_display = ('user', 'recipe')
     search_fields = ('user',)
 
 
 class FollowAdmin(admin.ModelAdmin):
-    """Рецепты избранные"""
     list_display = ('user', 'author')
     search_fields = ('user',)
 
