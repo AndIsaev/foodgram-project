@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.db.models import UniqueConstraint
+from django.db.models import UniqueConstraint, Q, CheckConstraint
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class Tag(models.Model):
+    """Model tags."""
     title = models.CharField('Имя тега', max_length=60, db_index=True)
     display_name = models.CharField('Имя тега для шаблона', max_length=60)
     color = models.CharField('Цвет тега', max_length=15)
@@ -20,6 +21,7 @@ class Tag(models.Model):
 
 
 class Recipe(models.Model):
+    """Model recipes."""
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -67,6 +69,7 @@ class Recipe(models.Model):
 
 
 class Ingredient(models.Model):
+    """Model ingredients."""
     title = models.CharField(
         max_length=100,
         verbose_name='Название'
@@ -94,6 +97,7 @@ class Quantity(models.Model):
 
 
 class Follow(models.Model):
+    """Model for subscribe."""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="follower"
     )
@@ -105,12 +109,14 @@ class Follow(models.Model):
         verbose_name = "Подписка"
         verbose_name_plural = "Подписки"
         ordering = ('author',)
-        constraints = [UniqueConstraint(fields=["user", "author"],
-                                        name='unique_follow')]
+        constraints = [
+            UniqueConstraint(
+            fields=["user", "author"],
+            name='unique_follow')]
 
 
 class Purchase(models.Model):
-    """Рецетов на покупки"""
+    """Model our purchase."""
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='purchases',
                              verbose_name='Пользователь')
@@ -123,7 +129,7 @@ class Purchase(models.Model):
 
 
 class Favorite(models.Model):
-    """Рецепты избранные"""
+    """Model favorites recipes."""
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='favorites',
                              verbose_name='Пользователь')
@@ -133,3 +139,7 @@ class Favorite(models.Model):
 
     class Meta:
         verbose_name = 'Избранное'
+        constraints = [
+            UniqueConstraint(
+                fields=["user", "recipe"],
+                name='unique_favorite')]

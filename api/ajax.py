@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from recipes.models import Ingredient, Favorite, Recipe, User, Follow
 
 
+@login_required
 def found_ingredient(request):
     query = request.GET.get("query").lower()[:-1]
     ingredients = Ingredient.objects.filter(
@@ -37,10 +38,9 @@ def remove_favorites(request, recipe_id):
 def add_subscription(request):
     body = json.loads(request.body)
     author = get_object_or_404(User, id=int(body['id']))
-    user = get_object_or_404(User, id=request.user.id)
 
-    if user.id != author.id:
-        Follow.objects.get_or_create(user=user, author=author)
+    if request.user != author:
+        Follow.objects.get_or_create(user=request.user, author=author)
         return JsonResponse({"success": True})
     response = HttpResponse()
     response.status_code = 400
@@ -51,6 +51,5 @@ def add_subscription(request):
 @csrf_exempt
 def remove_subscription(request, author_id):
     author = get_object_or_404(User, id=author_id)
-    user = get_object_or_404(User, id=request.user.id)
-    Follow.objects.filter(user=user, author=author).delete()
+    Follow.objects.filter(user=request.user, author=author).delete()
     return JsonResponse({"success": True})

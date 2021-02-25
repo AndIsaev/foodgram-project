@@ -36,9 +36,9 @@ def count_purchase(user):
 @register.filter(name="count_recipe")
 def count_recipe(recipe_count):
     count = int(recipe_count - 3)
-    if count == 1:
-        return "1 рецепт"
-    elif count in [2, 3, 4]:
+    if count % 10 == 1 and count % 100 != 11:
+        return f"{count} рецепт"
+    elif 2 <= count % 10 <= 4 and (count % 100 < 10 or count % 100 >= 20):
         return f"{count} рецепта"
     else:
         return f"{count} рецептов"
