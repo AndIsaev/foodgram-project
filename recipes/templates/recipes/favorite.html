@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Рецепты {% endblock %}
+{% block title %} Избранное {% endblock %}
 {% load static %}
 {% block static %}
 <link rel="stylesheet" href="{% static 'pages/index.css' %}">
@@ -7,12 +7,12 @@
 
 {% block content %}
 <main class="main container">
-    <div class="main__header">
-        <h1 class="main__title">Рецепты</h1>
-        <ul class="tags">
+<div class="main__header">
+    <h1 class="main__title">Избранное</h1>
+    <ul class="tags">
             {% include "includes/tags.html" %}
-        </ul>
-    </div>
+    </ul>
+</div>
     <div class="card-list">
         {% for recipe in page %}
             {% include "recipes/recipe_item.html" with recipe=recipe %}
@@ -24,24 +24,21 @@
 </main>
 {% endblock %}
 
-{% block script %}
-    <script src="{% static 'js/config/config.js' %}"></script>
-    <script src="{% static 'js/components/MainCards.js' %}"></script>
 
+{% block script %}
+
+    <script src="{% static 'js/components/MainCards.js' %}"></script>
     <script src="{% static 'js/components/Purchases.js' %}"></script>
     <script src="{% static 'js/components/Favorites.js' %}"></script>
-    <script src="{% static 'js/components/Subscribe.js' %}"></script>
-
-    <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
     <script src="{% static 'js/components/Header.js' %}"></script>
-
+    <script src="{% static 'js/config/config.js' %}"></script>
     <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'js/components/CardList.js' %}"></script>
+    <script src="{% static 'favorite.js' %}"></script>
+    <script src="{% static 'js/components/Subscribe.js' %}"></script>
+    <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
     <script src="{% static 'authorRecipe.js' %}"></script>
+    <script src="{% static 'js/components/CardList.js' %}"></script>
+    <script src="{% static 'indexAuth.js' %}"></script>
 
-    {% if user.is_authenticated %}
-        <script src="{% static 'indexAuth.js' %}"></script>
-    {% else %}
-        <script src="{% static 'indexNotAuth.js' %}"></script>
-    {% endif %}
 {% endblock %}
-

@@ -83,7 +83,7 @@ def profile(request, username):
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
     return render(request,
-                  "profile.html",
+                  "recipes/profile.html",
                   {"author": author,
                    "count":paginator.count,
                    "page": page,
@@ -102,7 +102,7 @@ def recipe_view(request, username, recipe_id):
     form = RecipeForm(request.POST or None)
     author = recipe.author
     ingredients = Quantity.objects.filter(recipe=recipe_id)
-    return render(request, "recipe_view.html", {
+    return render(request, "recipes/recipe_view.html", {
         "recipe": recipe,
         "author": author,
         "form": form,
@@ -152,6 +152,7 @@ def recipe_edit(request, username,  recipe_id):
         "title_text": "Редактирование рецепта"}
     )
 
+
 @login_required
 def delete_recipe(request, recipe_id, username):
     """Delete recipe."""
@@ -171,7 +172,7 @@ def favorites(request):
     page_number = request.GET.get("page")
     page = paginator.get_page(page_number)
 
-    return render(request, "favorite.html", {
+    return render(request, "recipes/favorite.html", {
         "page": page,
         "paginator": paginator,
         "tags": tags,
@@ -193,7 +194,7 @@ def subscriptions(request):
 
     return render(
         request,
-        "subscription.html",
+        "recipes/subscription.html",
         {"page": page,
          "paginator": paginator}
     )
@@ -206,6 +207,6 @@ def purchase(request):
     purchases = Purchase.objects.filter(user=user).prefetch_related("recipe")
     return render(
         request,
-        "shopList.html",
+        "recipes/shopList.html",
         {"purchases": purchases}
     )
