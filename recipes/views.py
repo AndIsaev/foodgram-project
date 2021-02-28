@@ -33,7 +33,7 @@ def index(request):
         {"page": page,
          "paginator": paginator,
          "tags": tags,
-         "filter":filters}
+         "filter": filters}
     )
 
 
@@ -63,14 +63,14 @@ def new_recipe(request):
 
         for ingredient, value in ingredients.items():
             Quantity.objects.create(ingredient=ingredient,
-                                  recipe=recipe,
-                                  amount=value)
+                                    recipe=recipe,
+                                    amount=value)
         return redirect("index")
     return render(
         request,
         "new.html",
         {"form": form,
-         "title_text":"Добавить запись"}
+         "title_text": "Добавить запись"}
     )
 
 
@@ -85,13 +85,13 @@ def profile(request, username):
     return render(request,
                   "recipes/profile.html",
                   {"author": author,
-                   "count":paginator.count,
+                   "count": paginator.count,
                    "page": page,
                    "recipes": recipes,
                    "paginator": paginator,
                    "tags": tags,
-                   "filter":filters}
-    )
+                   "filter": filters}
+                  )
 
 
 def recipe_view(request, username, recipe_id):
@@ -107,10 +107,11 @@ def recipe_view(request, username, recipe_id):
         "author": author,
         "form": form,
         "ingredients": ingredients}
-    )
+                  )
+
 
 @login_required
-def recipe_edit(request, username,  recipe_id):
+def recipe_edit(request, username, recipe_id):
     """Edit recipe."""
     recipe = get_object_or_404(Recipe,
                                id=recipe_id,
@@ -150,7 +151,7 @@ def recipe_edit(request, username,  recipe_id):
         "ingredients": ingredients,
         "tags": tags,
         "title_text": "Редактирование рецепта"}
-    )
+                  )
 
 
 @login_required
@@ -177,8 +178,8 @@ def favorites(request):
         "paginator": paginator,
         "tags": tags,
         "filter": filters,
-        "favorite": True,}
-    )
+        "favorite": True, }
+                  )
 
 
 @login_required
