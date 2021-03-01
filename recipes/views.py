@@ -109,8 +109,7 @@ def recipe_view(request, username, recipe_id):
         "ingredients": ingredients}
                   )
 
-
-  
+ 
 @login_required
 def recipe_edit(request, username, recipe_id):
     """Edit recipe."""
