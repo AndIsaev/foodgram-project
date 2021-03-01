@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 
-static/
-recipes/static/
-media/
+#static/
+#recipes/static/
+#media/
