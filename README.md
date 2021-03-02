@@ -7,3 +7,6 @@
 -Python
 -Django
 -Docker
+-Django REST framework
+
+Ссылка на проект https://andisaev.ml/
