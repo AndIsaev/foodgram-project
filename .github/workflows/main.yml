@@ -52,4 +52,3 @@ jobs:
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker rmi -f $(sudo docker images -q)
             sudo docker-compose up --build -d
-        message: ${{ github.workflow }} успешно выполнен!
