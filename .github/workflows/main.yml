@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: pip install flake8 pytest
     - name: Test flake8
-      run: flake8 api/ foodgram/ recipes/ users/ --exclude foodgram/settings.py,recipes/migrations/
+      run: flake8 api/ foodgram/ recipes/ users/ --exclude foodgram/settings.py,recipes/migrations/,recipes/downloads.py
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
