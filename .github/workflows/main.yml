@@ -53,7 +53,4 @@ jobs:
             sudo docker-compose rm -f web
             sudo docker-compose up -d
             
-            
-            
-
->>>>>>> 244abeb2e214c5ce402e03a94e1b1e127e73ba86
+ 
