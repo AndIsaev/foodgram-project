@@ -52,7 +52,6 @@ jobs:
             sudo apt upgrade -y
             sudo apt install docker -y
             sudo apt install docker-compose -y
-            cd ${{ env.PROJECT_ROOT }}
             sudo docker pull andisaev/foodgram:v1
             sudo docker-compose stop
             sudo docker-compose rm web
