@@ -14,7 +14,7 @@ services:
       - ./.env
 
   web:
-    image: andisaev/foodgram:v1
+    image: andisaev/foodgram:latest
     restart: always
     volumes:
       - static:/static
@@ -27,8 +27,8 @@ services:
   nginx:
     image: nginx:1.19.5
     volumes:
-      - media:/media
       - static:/static
+      - media:/media
       - ./nginx/default.conf:/etc/nginx/default.conf
     ports:
       - "80:80"
