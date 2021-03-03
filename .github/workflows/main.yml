@@ -48,9 +48,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo docker pull andisaev/foodgram:latest
-            sudo docker-compose stop
-            sudo docker-compose rm -f web
-            sudo docker-compose up -d
+                script: |
+                sudo docker pull andisaev/foodgram:latest
+                sudo docker stop $(sudo docker ps -a -q)
+                sudo docker run --rm -d -p 80:80 andisaev/foodgram:latest
+          
+            #sudo docker pull andisaev/foodgram:latest
+            #sudo docker-compose stop
+            #sudo docker-compose rm -f web
+            #sudo docker-compose up -d
             
  
