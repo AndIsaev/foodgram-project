@@ -48,8 +48,16 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo docker stop $(docker ps -a -q)
-            sudo docker rm $(sudo docker ps -a -q)
-            sudo docker rmi -f $(sudo docker images -q)
-            sudo docker-compose up --build -d
+            sudo apt update
+            sudo apt upgrade -y
+            sudo apt install docker -y
+            sudo apt install docker-compose -y
+            cd ${{ env.PROJECT_ROOT }}
+            sudo docker pull andisaev/foodgram:v1
+            sudo docker-compose stop
+            sudo docker-compose rm web
+            sudo docker-compose up -d
+            
+            
+            
 
