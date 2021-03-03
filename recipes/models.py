@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.db.models import UniqueConstraint, Q, CheckConstraint
+from django.db.models import UniqueConstraint
 from django.core.validators import MinValueValidator
 from django.db import models
 
@@ -33,12 +33,12 @@ class Recipe(models.Model):
     )
     description = models.TextField(
         blank=True,
-        null=True,verbose_name='Описание'
+        null=True, verbose_name='Описание'
     )
     ingredients = models.ManyToManyField(
         'Ingredient',
         through='Quantity',
-        through_fields = ('recipe', 'ingredient'),
+        through_fields=('recipe', 'ingredient'),
         verbose_name='Ингредиенты'
     )
     image = models.ImageField(
@@ -111,8 +111,8 @@ class Follow(models.Model):
         ordering = ('author',)
         constraints = [
             UniqueConstraint(
-            fields=["user", "author"],
-            name='unique_follow')]
+                fields=["user", "author"],
+                name='unique_follow')]
 
 
 class Purchase(models.Model):

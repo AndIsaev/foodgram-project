@@ -13,7 +13,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ("author", "title", "pub_date")
     search_fields = ("title",)
     list_filter = ("pub_date",)
-    inlines = [QuantityInstanceInline,]
+    inlines = [QuantityInstanceInline, ]
     empty_value_display = "-пусто-"
 
 
@@ -35,6 +35,7 @@ class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     search_fields = ('user',)
 
+
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     search_fields = ('user',)
@@ -45,7 +46,7 @@ class FollowAdmin(admin.ModelAdmin):
     search_fields = ('user',)
 
 
-admin.site.register(Follow ,FollowAdmin)
+admin.site.register(Follow, FollowAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
 admin.site.register(Purchase, PurchaseAdmin)
 admin.site.register(Ingredient, IngredientAdmin)

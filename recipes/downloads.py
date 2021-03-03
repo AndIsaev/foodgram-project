@@ -7,8 +7,8 @@ from django.http import HttpResponse
 
 
 def get_file_content(ingredients, user):
-    filename = ('Shopping list from ' 
-               f'{datetime.now().strftime("%d.%m.%y %H.%M.%S")}.txt')
+    filename = ('Shopping list from '
+                f'{datetime.now().strftime("%d.%m.%y %H.%M.%S")}.txt')
     file_content = ''
     for ingredient in ingredients:
         ingredient_title = ingredient[
@@ -17,8 +17,8 @@ def get_file_content(ingredients, user):
         ingredient_dimension = ingredient['ingredient__dimension']
         amount_sum = ingredient['amount__sum']
 
-        file_content += (f'{ingredient_title} ' 
-                        f'({ingredient_dimension}) — {amount_sum}  ;' + '\n')
+        file_content += (f'{ingredient_title} '
+                         f'({ingredient_dimension}) — {amount_sum}  ;' + '\n')
     return filename, file_content
 
 

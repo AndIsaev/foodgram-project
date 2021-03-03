@@ -33,6 +33,7 @@ def count_purchase(user):
     result = Purchase.objects.filter(user=user).count()
     return result
 
+
 @register.filter(name="count_recipe")
 def count_recipe(recipe_count):
     count = int(recipe_count - 3)
