@@ -51,9 +51,6 @@ jobs:
             sudo docker pull andisaev/foodgram:latest
             sudo docker-compose stop
             sudo docker-compose rm -f web
-<<<<<<< HEAD
-            sudo docker-compose up -d
-=======
             sudo docker-compose up -d
             
             
