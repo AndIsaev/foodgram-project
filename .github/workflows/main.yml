@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           push: true
-          tags: andisaev/foodgram:latest
+          tags: andisaev/foodgram:v1
 
 
   deploy:
@@ -56,8 +56,12 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull andisaev/foodgram:latest
-            cd /home/${{ secrets.USER }}
+            sudo apt update
+            sudo apt upgrade -y
+            sudo apt install docker -y
+            sudo apt install docker-compose -y
+            cd app/foodgram-project
+            sudo docker pull andisaev/foodgram:v1
             sudo docker-compose stop
             sudo docker rm web
             sudo docker-compose up -d
