@@ -14,7 +14,7 @@ services:
       - ./.env
 
   web:
-    image: andisaev/foodgram:latest
+    image: andisaev/foodgram:v1
     restart: always
     volumes:
       - static:/static
@@ -25,11 +25,11 @@ services:
       - ./.env
 
   nginx:
-    image: nginx:1.19.5
+    image: nginx:1.19.0
     volumes:
-      - static:/static
       - media:/media
-      - ./nginx/default.conf:/etc/nginx/default.conf
+      - static:/static
+      - ./nginx/default.conf:/etc/nginx/conf.d
     ports:
       - "80:80"
     depends_on:
