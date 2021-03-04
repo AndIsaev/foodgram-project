@@ -46,6 +46,9 @@ jobs:
 
 
   deploy:
+    env:
+      SECRET_KEY: ~/app/foodgram-project
+    
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
@@ -60,7 +63,7 @@ jobs:
             sudo apt upgrade -y
             sudo apt install docker -y
             sudo apt install docker-compose -y
-            cd app/foodgram-project
+            cd ${{ env.SECRET_KEY }}
             sudo docker pull andisaev/foodgram:v1
             sudo docker-compose stop
             sudo docker-compose rm web
