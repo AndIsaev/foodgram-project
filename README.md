@@ -1,13 +1,175 @@
 [![foodgram-project workflow](https://github.com/AndIsaev/foodgram-project/actions/workflows/main.yml/badge.svg)](https://github.com/AndIsaev/foodgram-project/actions/workflows/main.yml)
+
 # foodgram-project
 
-«Продуктовый помощник» (Проект Яндекс.Практикум)
-
-Это онлайн-сервис, где пользователи смогут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в «Избранное» и скачивать список необходимых продуктов для приготовления блюд.
-Стек:
--Python
--Django
--Docker
--Django REST framework
-
 Ссылка на проект https://andisaev.ml/
+
+## Описание
+«Продуктовый помощник» (Проект Яндекс.Практикум)
+Сайт является - базой кулинарных рецептов. Пользователи могут создовать свои рецепты, читать рецепты других пользователей, подписываться на интересных авторов, добавлять лучшие рецепты в избранное, а также создавать список покупок и загружать его в pdf формате. Также присутствует файл docker-compose, позволяющий , быстро развернуть контейнер базы данных (PostgreSQL), контейнер проекта django + gunicorn и контейнер nginx
+
+# Как запустить
+Клонируем проект: 
+```
+git clone https://github.com/AndIsaev/foodgram-project.git
+```
+Для добавления файла .env с настройками базы данных на сервер необходимо:
+
+* Установить соединение с сервером по протоколу ssh:
+
+  ```
+  ssh username@84.201.176.52
+  ```
+
+Где username - имя пользователя, под которым будет выполнено подключение к серверу.
+
+server_address - IP-адрес сервера или доменное имя.
+
+Например:
+
+  ```
+  ssh praktikum@84.201.176.52
+  ```
+
+В домашней директории проекта Создать папку app/:
+
+  ```
+  mkdir app
+  ```
+  
+В ней создать папку fodgram-project/:
+
+  ```
+  mkdir app/fodgram-project
+  ```
+
+В папке fodgram-project создать файл .env:
+
+  ```
+  sudo nano app/fodgram-project/.env
+  ```
+  
+Пример добавляемых настроек:
+
+
+  ```
+  DB_ENGINE=django.db.backends.postgresql
+  DB_NAME=postgres
+  POSTGRES_USER=postgres
+  POSTGRES_PASSWORD=postgres
+  DB_HOST=postgres
+  DB_PORT=5432
+  
+  ```
+
+Также необходимо добавить Action secrets в репозитории на GitHub в разделе settings -> Secrets:
+
+* DOCKER_PASSWORD - пароль от DockerHub;
+* DOCKER_USERNAME - имя пользователя на DockerHub;
+* HOST - ip-адрес сервера;
+* SSH_KEY - приватный ssh ключ (публичный должен быть на сервере);
+Опционно:
+   ```
+  * TELEGRAM_TO - id своего телеграм-аккаунта (можно узнать у @userinfobot, команда /start)
+  * TELEGRAM_TOKEN - токен бота (получить токен можно у @BotFather, /token, имя бота)
+   ```
+# Проверка работоспособности
+Теперь если внести любые изменения в проект и выполнить:
+
+  ```
+  git add .
+  git commit -m "..."
+  git push
+  ```
+
+
+Комманда git push является триггером workflow проекта. При выполнении команды git push запустится набор блоков комманд jobs (см. файл main.yaml). Последовательно будут выполнены следующие блоки:
+  
+  * tests - тестирование проекта на соответствие PEP8 и тестам pytest.
+
+  * build_and_push_to_docker_hub - при успешном прохождении тестов собирается образ (image) для docker контейнера и отправлятеся в DockerHub
+
+  * deploy - после отправки образа на DockerHub начинается деплой проекта на сервере. Происходит копирование следующих файлов с репозитория на сервер:
+  
+    ```
+    1 docker-compose.yaml, необходимый для сборки трех контейнеров:
+      1.1 postgres - контейнер базы данных
+      1.2 web - контейнер Django приложения + wsgi-сервер gunicorn
+      1.3 nginx - веб-сервер
+    2 nginx/default.conf - файл кофигурации nginx сервера
+    3 static - папка со статическими файлами проекта
+    ```
+
+После копировния происходит установка docker и docker-compose на сервере и начинается сборка и запуск контейнеров.
+
+* send_message - после сборки и запуска контейнеров происходит отправка сообщения в телеграм об успешном окончании workflow
+
+После выполнения вышеуказанных процедур необходимо установить соединение с сервером:
+
+  ```
+  ssh username@server_address
+  ```
+
+Отобразить список работающих контейнеров:
+
+  ```
+  sudo docker container ls
+  ```
+
+В списке контейнеров копировать CONTAINER ID контейнера username/yamdb_final_web:latest (username - имя пользователя на DockerHub):
+
+  ```
+  CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                NAMES
+  9338873f6a9e   nginx:1.19.6           "/docker-entrypoint.…"   45 seconds ago   Up 43 seconds   0.0.0.0:80->80/tcp   foodgram-project_nginx_1
+  d415a082597e   andisaev/foodgram:v1   "/bin/sh -c 'gunicor…"   47 seconds ago   Up 45 seconds                        foodgram-project_web_1
+  d8cb992faa64   postgres:12.4          "docker-entrypoint.s…"   4 minutes ago    Up 46 seconds   5432/tcp             foodgram-project_postgres_1
+  ```
+
+Выполнить вход в контейнер:
+
+  ```
+  sudo docker exec -it d415a082597e bash
+  ```
+
+Внутри контейнера выполнить миграции:
+
+  ```
+  python manage.py migrate
+  ```
+
+
+Также можно наполнить базу данных начальными тестовыми данными:
+
+  ```
+  python3 manage.py shell
+  >>> from django.contrib.contenttypes.models import ContentType
+  >>> ContentType.objects.all().delete()
+  >>> quit()
+  python manage.py loaddata dump.json
+  ```
+Теперь проекту доступна статика. В админке Django (http://<server_address>/admin) доступно управление данными. Если загрузить фикструры, то будет доступен superuser:
+
+```
+  email: adminka
+  password: adidas123
+```
+
+Для создания нового суперпользователя можно выполнить команду:
+
+  ```
+  $ python manage.py createsuperuser
+  ```
+  
+Для остановки и удаления контейнеров и образов на сервере:
+
+  ```
+  sudo docker stop $(sudo docker ps -a -q) && sudo docker rm $(sudo docker ps -a -q) && sudo docker rmi $(sudo docker images -q)
+  ```
+
+# Автор:
+
+Андрей Исаев - AndIsaev
+Сайт: http://smyamdbfinal.students.nomoredomains.icu/api/v1/
+
+* [Андрей Исаев](https://github.com/AndIsaev) - AndIsaev
+* Сайт: http://84.201.146.17/
