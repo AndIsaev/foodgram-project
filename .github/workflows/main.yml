@@ -61,7 +61,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           source: "docker-compose.yaml, nginx/default.conf, static, media"
           target: ${{ env.PROJECT_ROOT }}
     
@@ -72,7 +72,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             sudo apt update
             sudo apt upgrade -y
