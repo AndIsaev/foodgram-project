@@ -1,3 +1,4 @@
+[![foodgram-project workflow](https://github.com/AndIsaev/foodgram-project/actions/workflows/main.yml/badge.svg)](https://github.com/AndIsaev/foodgram-project/actions/workflows/main.yml)
 # foodgram-project
 
 «Продуктовый помощник» (Проект Яндекс.Практикум)
