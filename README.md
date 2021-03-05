@@ -68,7 +68,7 @@ server_address - IP-адрес сервера или доменное имя.
 * DOCKER_USERNAME - имя пользователя на DockerHub;
 * HOST - ip-адрес сервера;
 * SSH_KEY - приватный ssh ключ (публичный должен быть на сервере);
-Опционно:
+* Опционно:
    ```
   * TELEGRAM_TO - id своего телеграм-аккаунта (можно узнать у @userinfobot, команда /start)
   * TELEGRAM_TOKEN - токен бота (получить токен можно у @BotFather, /token, имя бота)
