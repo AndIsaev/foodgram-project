@@ -47,11 +47,26 @@ jobs:
 
   deploy:
     env:
-      SECRET_KEY: ~/app/foodgram-project
+      PROJECT_ROOT: ~/app/foodgram-project
     
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: copy docker-compose and nginx
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yaml, nginx/default.conf, static, media"
+          target: ${{ env.PROJECT_ROOT }}
+    
+    
+    
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
@@ -63,7 +78,7 @@ jobs:
             sudo apt upgrade -y
             sudo apt install docker -y
             sudo apt install docker-compose -y
-            cd ${{ env.PRIVATE_KEY }}
+            cd ${{ env.PROJECT_ROOT }}
             sudo docker pull andisaev/foodgram:v1
             sudo docker-compose stop
             sudo docker-compose rm web
