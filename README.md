@@ -176,7 +176,6 @@ server_address - IP-адрес сервера или доменное имя.
 
 # Автор:
 
-Андрей Исаев - AndIsaev
 
-* [Андрей Исаев](https://github.com/AndIsaev) - AndIsaev
+* [Андрей Исаев](https://github.com/AndIsaev)
 * Сайт: http://84.201.146.17/
