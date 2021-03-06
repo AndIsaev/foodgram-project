@@ -177,7 +177,6 @@ server_address - IP-адрес сервера или доменное имя.
 # Автор:
 
 Андрей Исаев - AndIsaev
-Сайт: http://smyamdbfinal.students.nomoredomains.icu/api/v1/
 
 * [Андрей Исаев](https://github.com/AndIsaev) - AndIsaev
 * Сайт: http://84.201.146.17/
