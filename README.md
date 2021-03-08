@@ -159,7 +159,7 @@ server_address - IP-адрес сервера или доменное имя.
 
 ```
   user: adminka
-  password: adidas123
+  password: neVzlomaesh'!
 ```
 
 Для создания нового суперпользователя можно выполнить команду:
