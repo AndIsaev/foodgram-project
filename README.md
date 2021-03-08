@@ -158,7 +158,7 @@ server_address - IP-адрес сервера или доменное имя.
 Теперь проекту доступна статика. В админке Django (http://<server_address>/admin) доступно управление данными. Если загрузить фикструры, то будет доступен superuser:
 
 ```
-  email: adminka
+  user: adminka
   password: adidas123
 ```
 
