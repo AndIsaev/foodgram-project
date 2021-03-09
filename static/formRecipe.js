@@ -39,13 +39,13 @@ function Ingredients() {
             const elem = document.createElement('div');
             elem.classList.add('form__field-item-ingredient');
             elem.id = `ing_${cur}`;
-            let ing_name = data.name.replaceAll('"', "'");
+            let ing_name = data.name.replaceAll(/"/g, '&quot;');
             elem.innerHTML = `<span> ${data.name} ${data.value}${data.units}</span> <span class="form__field-item-delete"></span>
-                             <input id="nameIngredient_${cur}" name="nameIngredient_${cur}" type="hidden" value="${data.name}">
-                             <input id="valueIngredient_${cur}" name="valueIngredient_${cur}" type="hidden" value="${data.value}">
-                             <input id="unitsIngredient_${cur}" name="unitsIngredient_${cur}" type="hidden" value="${data.units}">`;
+                             <input id="nameIngredient_${cur}" name="nameIngredient" type="hidden" value="${ing_name}">
+                             <input id="valueIngredient_${cur}" name="valueIngredient" type="hidden" value="${data.value}">
+                             <input id="unitsIngredient_${cur}" name="unitsIngredient" type="hidden" value="${data.units}">`;
             cur++;
-            
+
             ingredientsContainer.appendChild(elem);
         }
     };
@@ -106,5 +106,3 @@ const ingredients = Ingredients();
 formDropdownItems.addEventListener('click', ingredients.dropdown);
 // вешаем слушатель на кнопку
 addIng.addEventListener('click', ingredients.addIngredient);
-
-

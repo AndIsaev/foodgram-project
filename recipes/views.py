@@ -44,7 +44,7 @@ def get_dict_ingredient(request_obj):
             ingredient = get_object_or_404(Ingredient,
                                            title=request_obj[key])
             value = key[15:]
-            tmp[ingredient] = request_obj["valueIngredient_" + value]
+            tmp[ingredient] = request_obj["valueIngredient" + value]
     return tmp
 
 
