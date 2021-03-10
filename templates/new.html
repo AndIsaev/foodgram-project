@@ -74,7 +74,7 @@
                         {% if ingredients %}
                             {% for ingredient in ingredients %}
                                 <div class="form__field-item-ingredient" id="ing_{{ ingredient.ingredient.id }}"><span>
-										{{ ingredient.ingredient.title }} {{ ingredient.quantity }}
+										{{ ingredient.ingredient.title }} {{ ingredient.amount }}
                                     {{ ingredient.ingredient.dimension }}</span> <span
                                         class="form__field-item-delete"></span>
                                     <input id="nameIngredient_{{ ingredient.ingredient.id }}"
@@ -82,7 +82,7 @@
                                            value="{{ ingredient.ingredient.title }}">
                                     <input id="valueIngredient_{{ ingredient.ingredient.id }}"
                                            name="valueIngredient_{{ ingredient.ingredient.id }}" type="hidden"
-                                           value="{{ ingredient.quantity }}">
+                                           value="{{ ingredient.amount }}">
                                     <input id="unitsIngredient_{{ ingredient.ingredient.id }}"
                                            name="unitsIngredient_{{ ingredient.ingredient.id }}" type="hidden"
                                            value="{{ ingredient.ingredient.dimension }}">
@@ -91,7 +91,13 @@
                         {% endif %}
                     </div>
                     <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
-                    <span class="form__error"></span>
+                    {% if form.errors %}
+                    {% for error in form.non_field_errors %}
+                    <div class="form__group">
+                    <span class="form__error">{{ error|escape }}</span>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="form__group">
@@ -133,12 +139,12 @@
         </form>
     </div>
 
-    {% block script %}
-    <script src="{% static "js/config/config.js" %}"></script>
-    <script src="{% static "js/components/Header.js" %}"></script>
-    <script src="{% static "js/utils/debouncing.js" %}"></script>
-    <script src="{% static "js/api/Api.js" %}"></script>
-    <script src="{% static "formRecipe.js" %}"></script>
-    {% endblock %}
+{% endblock %}
 
+{% block script %}
+    <script src="{% static 'js/config/config.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
+    <script src="{% static 'js/utils/debouncing.js' %}"></script>
+    <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'formRecipe.js' %}"></script>
 {% endblock %}

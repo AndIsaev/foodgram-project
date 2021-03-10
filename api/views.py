@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from api.serializers import PurchaseSerializer
 from recipes.models import Purchase, Recipe
@@ -8,6 +10,7 @@ from recipes.models import Purchase, Recipe
 class PurchaseViewSet(viewsets.ModelViewSet):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
+    permission_classes = (IsAuthenticated, )
 
     def perform_create(self, serializer):
         recipe = get_object_or_404(Recipe, id=self.request.data.get('id'))

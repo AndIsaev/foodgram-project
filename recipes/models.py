@@ -32,7 +32,6 @@ class Recipe(models.Model):
         verbose_name='Название'
     )
     description = models.TextField(
-        blank=True,
         null=True, verbose_name='Описание'
     )
     ingredients = models.ManyToManyField(
@@ -43,7 +42,6 @@ class Recipe(models.Model):
     )
     image = models.ImageField(
         upload_to='recipes/',
-        blank=True,
         null=True,
         verbose_name="Картинка"
     )
@@ -74,7 +72,10 @@ class Ingredient(models.Model):
         max_length=100,
         verbose_name='Название'
     )
-    dimension = models.CharField(max_length=100, verbose_name='Мера')
+    dimension = models.CharField(
+        max_length=100,
+        verbose_name='Мера',
+    )
 
     class Meta:
         verbose_name = 'Ингридиент'

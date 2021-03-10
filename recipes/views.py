@@ -38,13 +38,14 @@ def index(request):
 
 
 def get_dict_ingredient(request_obj):
+    print(request_obj)
     tmp = dict()
     for key in request_obj:
-        if key.startswith("nameIngredient"):
+        if key.startswith("nameIngredient_"):
             ingredient = get_object_or_404(Ingredient,
                                            title=request_obj[key])
             value = key[15:]
-            tmp[ingredient] = request_obj["valueIngredient" + value]
+            tmp[ingredient] = request_obj["valueIngredient_" + value]
     return tmp
 
 
@@ -138,12 +139,12 @@ def recipe_edit(request, username, recipe_id):
                 recipe=recipe,
                 amount=value)
 
-        return redirect('recipe_view',
+        return redirect("recipe_view",
                         username=username,
                         recipe_id=recipe_id)
 
     ingredients = Quantity.objects.filter(recipe=recipe_id)
-    tags = list(recipe.tags.values_list('title', flat=True))
+    tags = list(recipe.tags.values_list("title", flat=True))
 
     return render(request, "new.html", {
         "form": form,
