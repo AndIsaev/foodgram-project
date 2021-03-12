@@ -48,10 +48,17 @@ server_address - IP-адрес сервера или доменное имя.
 В ней создать папку fodgram-project/:
 
   ```
-  mkdir app/fodgram-project
+  mkdir app/app/foodgram-project
+  
+  ```
+В ней создать файл .env:
+
+  ```
+   sudo touch app/foodgram-project/.env
   ```
 
-В папке fodgram-project создать файл .env:
+
+Выполнить следующую команду:
 
   ```
   sudo nano app/fodgram-project/.env
