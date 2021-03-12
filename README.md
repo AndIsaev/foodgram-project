@@ -61,7 +61,7 @@ server_address - IP-адрес сервера или доменное имя.
 Выполнить следующую команду:
 
   ```
-  sudo nano app/fodgram-project/.env
+  sudo nano app/foodgram-project/.env
   ```
   
 Пример добавляемых настроек:
