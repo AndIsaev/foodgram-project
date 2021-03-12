@@ -165,9 +165,9 @@ server_address - IP-адрес сервера или доменное имя.
 Теперь проекту доступна статика. В админке Django (http://<server_address>/admin) доступно управление данными. Если загрузить фикструры, то будет доступен superuser:
 
 ```
-  user: adminka
-  password: neVzlomaesh'!
-  email: adminka@mail.ru
+  user: Alan
+  password: JobsandCook!
+  email: apple@apple.com
 ```
 
 Для создания нового суперпользователя можно выполнить команду:
@@ -186,4 +186,4 @@ server_address - IP-адрес сервера или доменное имя.
 
 
 * [Андрей Исаев](https://github.com/AndIsaev)
-* Сайт: http://84.201.146.17/
+* [Сайт](http://84.201.146.17:8000/)
