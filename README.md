@@ -48,7 +48,7 @@ server_address - IP-адрес сервера или доменное имя.
 В ней создать папку fodgram-project/:
 
   ```
-  mkdir app/app/foodgram-project
+  mkdir app/foodgram-project
   
   ```
 В ней создать файл .env:
