@@ -38,7 +38,7 @@ class Recipe(models.Model):
         'Ingredient',
         through='Quantity',
         through_fields=('recipe', 'ingredient'),
-        verbose_name='Ингредиенты'
+        verbose_name='Ингредиенты', blank=True
     )
     image = models.ImageField(
         upload_to='recipes/',

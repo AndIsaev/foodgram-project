@@ -38,7 +38,6 @@ def index(request):
 
 
 def get_dict_ingredient(request_obj):
-    print(request_obj)
     tmp = dict()
     for key in request_obj:
         if key.startswith("nameIngredient_"):
@@ -57,22 +56,25 @@ def new_recipe(request):
 
     if form.is_valid():
         ingredients = get_dict_ingredient(request.POST)
-        recipe = form.save(commit=False)
-        recipe.author = request.user
-        recipe.save()
-        recipe.tags.set(form.cleaned_data["tags"])
+        if not bool(ingredients):
+            form.add_error(None, 'Добавьте ингредиенты')
+        else:
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            recipe.save()
+            recipe.tags.set(form.cleaned_data["tags"])
 
-        for ingredient, value in ingredients.items():
-            Quantity.objects.create(ingredient=ingredient,
-                                    recipe=recipe,
-                                    amount=value)
-        return redirect("index")
+            for ingredient, value in ingredients.items():
+                Quantity.objects.create(ingredient=ingredient,
+                                        recipe=recipe,
+                                        amount=value)
+            return redirect("index")
     return render(
-        request,
-        "new.html",
-        {"form": form,
-         "title_text": "Добавить запись"}
-    )
+            request,
+            "new.html",
+            {"form": form,
+             "title_text": "Добавить запись"}
+        )
 
 
 def profile(request, username):
@@ -128,20 +130,23 @@ def recipe_edit(request, username, recipe_id):
                       instance=recipe)
     if form.is_valid():
         ingredients = get_dict_ingredient(request.POST)
-        recipe = form.save(commit=False)
-        recipe.author = request.user
-        recipe.save()
-        recipe.tags.set(form.cleaned_data["tags"])
-        Quantity.objects.filter(recipe_id=recipe.id).delete()
-        for ingredient, value in ingredients.items():
-            Quantity.objects.create(
-                ingredient=ingredient,
-                recipe=recipe,
-                amount=value)
+        if not bool(ingredients):
+            form.add_error(None, 'Добавьте ингредиенты')
+        else:
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            recipe.save()
+            recipe.tags.set(form.cleaned_data["tags"])
+            Quantity.objects.filter(recipe_id=recipe.id).delete()
+            for ingredient, value in ingredients.items():
+                Quantity.objects.create(
+                    ingredient=ingredient,
+                    recipe=recipe,
+                    amount=value)
 
-        return redirect("recipe_view",
-                        username=username,
-                        recipe_id=recipe_id)
+            return redirect("recipe_view",
+                            username=username,
+                            recipe_id=recipe_id)
 
     ingredients = Quantity.objects.filter(recipe=recipe_id)
     tags = list(recipe.tags.values_list("title", flat=True))
