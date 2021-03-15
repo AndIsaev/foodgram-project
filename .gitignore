@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 .github/
 
-static
-media
+# static
+# media
