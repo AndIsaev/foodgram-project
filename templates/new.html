@@ -116,19 +116,18 @@
                 </div>
             </div>
             <div class="form__group">
-                <span class="form__label">Загрузить фото</span>
+                <span class="form__label"> Загрузить фото </span>
                 <div class="form__field-group">
-                    <label for="id_image" class="form__file-button">Выбрать файл</label>
-                    {{ form.image|addclass:'form__file-button form__file' }}
-                    <span class="form__error">{{ form.image.errors }}</span>
-                </div>
+                    {{ form.image }}
+                <span class="form__error"></span>
+            </div>
             </div>
             <div class="form__footer">
                 <button class="button button_style_blue">
                     {% if recipe %}
                         Сохранить
                     {% else %}
-                        Создание рецепта
+                        Создать рецепт
                     {% endif %}
                 </button>
                 {% if recipe %}

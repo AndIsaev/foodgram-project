@@ -58,6 +58,7 @@
                     {% endif %}
                 </ul>
             </div>
+            {% if user.is_authenticated %}
             <ul class="single-card__items">
                 <li class="single-card__item">
                     {% if not request.is_anonymous and request.user|check_purchase:recipe %}
@@ -70,7 +71,6 @@
                         </button>
                     {% endif %}
                 </li>
-                {% if user.is_authenticated %}
                 <li class="single-card__item">
                     <button class="button button_style_light-blue button_size_subscribe" name="subscribe"
                             {% if recipe.author|check_following:request.user %}
@@ -80,8 +80,8 @@
                             {% endif %}
                     </button>
                 </li>
-                {% endif %}
             </ul>
+            {% endif %}
             <div class="single-card__section">
                 <h3 class="single-card__section-title">Ингридиенты:</h3>
                 <div class="single-card__items single-card__items_column">

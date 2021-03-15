@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Регистрация прошла успешно успешно{% endblock %}
+
+
+
+{% load static %}
+{% block static %}
+	<link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+{% block content %}
+	<div class="custom-center-block">
+		<p class="custom-text-block">Вы успешно зарегестрировались.</p>
+		<div class="custom-button-block">
+			<a href="{% url 'login' %}" class="button button_style_blue">Пройти авторизацию</a>
+		</div>
+	</div>
+{% endblock %}
