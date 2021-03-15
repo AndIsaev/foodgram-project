@@ -9,5 +9,6 @@ class SignUp(CreateView):
     success_url = reverse_lazy("success_reg")
     template_name = "signup.html"
 
+
 def success_reg(request):
     return render(request, "registration/success_reg.html")
